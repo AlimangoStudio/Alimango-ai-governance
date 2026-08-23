@@ -67,9 +67,9 @@ The model is intentionally **not** the policy engine. Models propose actions. Go
 | **Unlazy** | final anti-shortcut completion gate + executable checker |
 | **Convergence** | reconciliation of spec, tasks, gates, evidence, review, and reality |
 | **Lifecycle / cancellation** | explicit states, retry bounds, delegation and terminal outcomes |
-| **Roles / multi-agent work** | researcher, implementer, reviewers, release coordination, bounded parallelism |
+| **Roles / multi-agent work** | researcher, analyst, writer, implementer, reviewers, release coordination |
 | **Telemetry** | structured action, evidence, timing, retry, context and terminal-state events |
-| **Security / privacy / network** | prompt injection, SSRF, secrets, data sensitivity, least capability |
+| **Security / privacy / network** | prompt injection, SSRF, secrets, isolation, sensitivity, least capability |
 | **Testing / performance / UI** | reusable quality policies with risk-proportional evidence |
 | **Upgrade discipline** | version file, upgrade-manifest schema and controlled consumer reference model |
 
@@ -77,6 +77,7 @@ The model is intentionally **not** the policy engine. Models propose actions. Go
 
 ```text
 AGENTS.md                     repo-local agent entry point
+CLAUDE.md                     Claude Code host shim
 GOVERNANCE.md                 public-lab authority boundary
 VERSION                       public reference version
 .specify/
@@ -88,16 +89,19 @@ VERSION                       public reference version
   workflows/                  execution state machines
   skills/                     reusable agent methods
   roles/                      bounded agent role profiles
+adapters/                     model/host adapter reference patterns
 control/                      machine-readable authority/action/context policy
 harness/                      audit, context, capability, skill-TDD, adoption, parallel-work contracts
-schemas/                      typed tool/action/context/evidence/review/event/upgrade contracts
+schemas/                      typed tool/action/context/evidence/review/event/exception/upgrade contracts
 templates/consumer/           private-governance consumer reference patterns
 scripts/                      deterministic validators + reference governance CLIs
-tests/                        executable governance regression tests
+tests/                        executable governance regression/adversarial tests
 examples/                     synthetic tools, context, review, and completed Spec Kit fixture
+proposals/                    Alimango Governance Proposal (AGP) design records
+experiments/                  reproducible public-safe experiment protocol
+benchmarks/                   governance effectiveness + cost metrics
 docs/                         architecture, threats, controls, lifecycle, security, contributor guides
-proposals/                    Alimango Governance Proposal (AGP) records
-.github/                      contribution templates + governance CI
+.github/                      issue/PR templates, Copilot instructions, governance CI
 ```
 
 ## Run the reference harness
@@ -121,6 +125,16 @@ make validate
 make test
 make fingerprint
 ```
+
+## Core public proposals
+
+| Proposal | Problem it attacks |
+| --- | --- |
+| [`AGP-001`](proposals/AGP-001-capability-gated-tool-execution.md) | agents confusing tool availability with authorization |
+| [`AGP-002`](proposals/AGP-002-authority-aware-context-compilation.md) | stale/poisoned/unbounded context and authority confusion |
+| [`AGP-003`](proposals/AGP-003-evidence-gated-completion.md) | false completion, skipped gates, and evidence drift |
+
+These are **accepted-for-lab reference designs**, not private production policy.
 
 ## The operating model
 
@@ -161,11 +175,22 @@ executable proof
 
 Strong contributions usually identify a concrete failure mode, propose the smallest enforceable control, include negative-path evidence, state capability/context costs, and document bypasses or limitations.
 
+## Contribute to an open research track
+
+There are already scoped tasks suitable for contributors:
+
+- [Capability-escalation adversarial fixtures](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/4) — tagged `good first issue`
+- [Bounded-context vs whole-repo benchmark](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/5) — experiment + measurements
+- [MCP / connector typed-contract fixtures](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/6) — tagged `good first issue`
+- [Stale-context and cache-poisoning tests](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/7) — adversarial context security
+
+Or start with [`docs/CONTRIBUTOR-QUICKSTART.md`](docs/CONTRIBUTOR-QUICKSTART.md), the [`AGP template`](proposals/PROPOSAL-TEMPLATE.md), or the [`experiment template`](experiments/EXPERIMENT-TEMPLATE.md).
+
 ## Quick start
 
 Read [`AGENTS.md`](AGENTS.md) to understand how agents are governed in this repo, then [`docs/AGENT-CONTROL-PLANE.md`](docs/AGENT-CONTROL-PLANE.md) for the architecture. For a concrete change, use the Spec Kit templates under [`.specify/templates/`](.specify/templates/) and follow [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-Useful starting points:
+Useful technical references:
 
 - [`docs/SPEC-KIT.md`](docs/SPEC-KIT.md)
 - [`docs/UNLAZY.md`](docs/UNLAZY.md)
@@ -174,12 +199,9 @@ Useful starting points:
 - [`docs/TOOL-CONTRACTS.md`](docs/TOOL-CONTRACTS.md)
 - [`docs/CONTEXT-ENGINEERING.md`](docs/CONTEXT-ENGINEERING.md)
 - [`docs/INDEPENDENT-REVIEW.md`](docs/INDEPENDENT-REVIEW.md)
+- [`docs/MCP-AND-CONNECTORS.md`](docs/MCP-AND-CONNECTORS.md)
 - [`docs/FAILURE-MODE-CATALOG.md`](docs/FAILURE-MODE-CATALOG.md)
 - [`docs/CONSUMER-MODEL.md`](docs/CONSUMER-MODEL.md)
-
-## What we want contributions on
-
-Agent permissions and approvals; prompt/tool injection defenses; context selection and cache invalidation; code-graph/RAG/CAG controls; deterministic validators; agent lifecycle/cancellation; independent reviewer methods; supply-chain verification; provenance; typed tool interfaces; test/evidence quality; token/latency budgets; host adapters; and new reproducible failure cases.
 
 ## Contribution boundary
 
