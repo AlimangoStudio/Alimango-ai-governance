@@ -36,6 +36,6 @@ Latency, token, compute, implementation, maintenance, false positives, compatibi
 
 Why not a simpler control? What stronger options exist?
 
-## Public/private adoption boundary
+## Public-scope and portability
 
-State what would still require independent private re-derivation and validation. Public acceptance of this proposal is not production adoption.
+Explain whether the proposal remains self-contained, uses only public-safe examples, introduces new data or network exposure, and what adopters would need to adapt for their own environment. Do not include confidential project, repository, endpoint, deployment, customer, or organizational details.
