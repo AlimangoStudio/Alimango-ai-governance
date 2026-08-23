@@ -13,8 +13,10 @@ from enum import Enum
 from typing import Any, Mapping
 
 OMISSION_PLACEHOLDER = "[Data block omitted: Content failed safety verification]"
-POLICY_DENIAL_CODES = {10, 11, 12, 13}
+POLICY_DENIAL_CODES = {10, 12, 13}
+APPROVAL_REQUIRED_CODES = {11}
 TRANSIENT_CODES = {70, 71, 72, 75}
+QUALITY_GATE_IDS = {"unlazy", "formatting", "documentation", "optimization"}
 
 
 class GateClass(str, Enum):
@@ -24,6 +26,7 @@ class GateClass(str, Enum):
 
 class FailureClass(str, Enum):
     POLICY_DENIAL = "policy_denial"
+    APPROVAL_REQUIRED = "approval_required"
     TRANSIENT = "transient_infrastructure"
     INTERNAL = "internal_governance_error"
     QUALITY_FAILURE = "quality_failure"
@@ -62,10 +65,28 @@ def digest_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
+def resolve_gate_class(gate_id: str) -> GateClass:
+    return GateClass.QUALITY if gate_id in QUALITY_GATE_IDS else GateClass.HARD
+
+
+def classify_exit_code(exit_code: int, gate_id: str) -> FailureClass:
+    if exit_code in APPROVAL_REQUIRED_CODES:
+        return FailureClass.APPROVAL_REQUIRED
+    if exit_code in POLICY_DENIAL_CODES:
+        return FailureClass.POLICY_DENIAL
+    if exit_code in TRANSIENT_CODES:
+        return FailureClass.TRANSIENT
+    if exit_code >= 80:
+        return FailureClass.INTERNAL
+    if resolve_gate_class(gate_id) == GateClass.QUALITY:
+        return FailureClass.QUALITY_FAILURE
+    return FailureClass.POLICY_DENIAL
+
+
 def decide(
     *,
     failure_class: FailureClass,
-    gate_class: GateClass,
+    gate_id: str,
     attempt: int,
     max_attempts: int = 3,
     production: bool = True,
@@ -75,6 +96,14 @@ def decide(
         raise ValueError("attempts must be positive")
     if fallback_mode not in {"degrade_read_only", "human_triage"}:
         raise ValueError("unsupported fallback mode; bypass modes are prohibited")
+
+    gate_class = resolve_gate_class(gate_id)
+
+    if failure_class == FailureClass.APPROVAL_REQUIRED:
+        return RecoveryDecision(
+            RecoveryStatus.SUSPENDED_HITL, False, True, False, False, True,
+            "Approval-required outcome remains blocked pending durable human triage.",
+        )
 
     if failure_class == FailureClass.POLICY_DENIAL:
         return RecoveryDecision(
@@ -91,6 +120,12 @@ def decide(
         return RecoveryDecision(
             RecoveryStatus.BEST_EFFORT_UNVERIFIED, False, True, False, False, False,
             "Quality correction exhausted; useful output may continue without a GREEN claim.",
+        )
+
+    if failure_class == FailureClass.QUALITY_FAILURE:
+        return RecoveryDecision(
+            RecoveryStatus.BLOCKED, False, True, False, False, False,
+            "Quality treatment rejected because the gate is not quality-allowlisted.",
         )
 
     if failure_class == FailureClass.TRANSIENT and attempt < max_attempts:
@@ -149,9 +184,13 @@ def main() -> int:
     payload = {
         "scope": "public-goods-reference",
         "max_quality_attempts": 3,
+        "quality_gate_ids": sorted(QUALITY_GATE_IDS),
+        "unknown_gate_classification": "hard",
         "policy_denial_codes": sorted(POLICY_DENIAL_CODES),
+        "approval_required_codes": sorted(APPROVAL_REQUIRED_CODES),
         "transient_codes": sorted(TRANSIENT_CODES),
         "placeholder": OMISSION_PLACEHOLDER,
+        "recovery_authorizes_side_effects": False,
         "bypass_mode_allowed": False,
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
