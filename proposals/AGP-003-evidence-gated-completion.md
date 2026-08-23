@@ -1,6 +1,6 @@
 # AGP-003: Evidence-Gated Completion with Unlazy and Convergence
 
-**Status:** accepted-for-lab  
+**Status:** accepted-for-reference  
 **Control family:** completion / evidence / review
 
 ## Failure mode
@@ -29,7 +29,7 @@ Terminal states are explicit:
 
 ## Why tests are not enough
 
-A test suite can be green while the wrong requirements were implemented or while deployment/review obligations are still open. Evidence gating therefore validates both behavioral proof and the delivery contract.
+A test suite can be green while the wrong requirements were implemented or while review/release obligations remain open. Evidence gating therefore validates both behavioral proof and the delivery contract.
 
 ## Evidence
 
@@ -47,6 +47,6 @@ Reference surfaces:
 
 Overly broad completion checklists become ritual. Gates should be risk- and scope-proportional, executable where possible, and tied to concrete acceptance criteria.
 
-## Public/private boundary
+## Portability
 
-The public terminal-state model is a reference for research and contribution. Private systems may impose stronger gates and project-specific golden-path evidence.
+The terminal-state and evidence model is intentionally generic. Adopters can add domain-specific gates while preserving the core rule that completion claims cannot exceed current evidence.
