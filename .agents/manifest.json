@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "scope": "public-lab-only",
+  "production_authority": false,
+  "authority_order": ["constitution", "policy", "governance", "spec", "task", "external"],
+  "risk_levels": {
+    "R0": "read-only research",
+    "R1": "reversible repository-local change",
+    "R2": "governed external side effect",
+    "R3": "secret/auth/data/deploy/identity/financial impact",
+    "R4": "destructive, irreversible, or high-impact action"
+  },
+  "decision_states": ["allow", "allow_with_evidence", "require_approval", "deny"],
+  "terminal_states": ["complete", "blocked", "partial", "cancelled", "needs_changes"],
+  "required_workflows": ["spec-kit", "action-governance", "context-compile", "independent-review", "unlazy", "convergence"],
+  "required_policies": ["core-engineering", "agent-actions", "context-security", "external-inputs", "model-provider", "supply-chain", "completion-evidence", "testing", "performance", "ui-quality"],
+  "required_skills": ["task-router", "done-when-proof", "adversarial-review", "blast-radius-proof", "parallel-agent-work", "session-continuity", "task-reporting-standard"]
+}
