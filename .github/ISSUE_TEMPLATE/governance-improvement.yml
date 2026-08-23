@@ -1,0 +1,62 @@
+name: Governance improvement
+about: Propose a concrete improvement to agent or engineering governance
+labels: [proposal]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This public repository is an idea intake surface only. Accepted ideas are not production governance unless independently adopted in Alimango's private governance repository.
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure mode or gap
+      description: What can go wrong today, or what recurring cost/ambiguity should be reduced?
+      placeholder: Describe a specific, observable problem.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed control
+      description: What concrete rule, validator, workflow, schema, test, or mechanism would address it?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Tests, examples, measurements, prior incidents, references, or reproducible observations.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Agent action governance
+        - Spec-driven engineering
+        - Evidence / validation / audit
+        - Context engineering / RAG / CAG
+        - Security / privacy / isolation
+        - Reliability / lifecycle
+        - Performance / token / compute efficiency
+        - Developer experience / portability
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Trade-offs and risks
+      description: Complexity, false positives, latency, token cost, compatibility, permissions, or security implications.
+    validations:
+      required: true
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Submission hygiene
+      options:
+        - label: I did not include secrets, private project data, or proprietary Alimango source.
+          required: true
+        - label: I understand that public acceptance does not make this production governance.
+          required: true
