@@ -135,7 +135,7 @@ def main() -> int:
             "freshness": raw.get("freshness", "current working revision"),
             "sensitivity": sensitivity,
             "reason": str(raw.get("reason", "task relevance")),
-            "required": required or mandatory_authority,
+            "required": required or mandatory_authority or required_for_authorization,
             "required_for_authorization": required_for_authorization,
             "rank": ranks[source_class],
             "estimated_tokens": estimate_tokens(text),
@@ -145,7 +145,7 @@ def main() -> int:
     prepared.sort(key=lambda item: (not bool(item["required"]), -int(item["rank"]), str(item["id"])))
     required_tokens = sum(int(item["estimated_tokens"]) for item in prepared if bool(item["required"]))
     if required_tokens > budget:
-        fail(f"required authority sources exceed budget ({required_tokens} > {budget})")
+        fail(f"required authority/authorization sources exceed budget ({required_tokens} > {budget})")
 
     selected: list[dict[str, object]] = []
     used = 0
