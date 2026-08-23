@@ -2,111 +2,73 @@
 
 # 🥭 Alimango AI Governance Lab
 
-### Open public-good control plane for governed AI-agent engineering
+### Public research, reference patterns, experiments, and contribution intake for governed AI-agent engineering
 
 [![Reference](https://img.shields.io/badge/reference-v1.0-111827?style=for-the-badge)](VERSION)
 [![Public Goods](https://img.shields.io/badge/scope-public%20goods-0969da?style=for-the-badge)](docs/PUBLIC-SCOPE.md)
-[![Agent Controls](https://img.shields.io/badge/agent%20controls-spec%20%7C%20capability%20%7C%20evidence-8250df?style=for-the-badge)](.agents/README.md)
-[![CI](https://img.shields.io/github/actions/workflow/status/AlimangoStudio/Alimango-ai-governance/public-hygiene.yml?branch=main&style=for-the-badge&label=governance%20CI)](.github/workflows/public-hygiene.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/AlimangoStudio/Alimango-ai-governance/public-hygiene.yml?branch=main&style=for-the-badge&label=public%20CI)](.github/workflows/public-hygiene.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-2da44e?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-1f883d?style=for-the-badge)](CONTRIBUTING.md)
 
-**Spec-driven engineering · fail-closed actions · capability control · bounded context · evidence gates · adversarial review · Unlazy · convergence**
-
-A self-contained, inspectable, executable reference implementation for governing AI coding and engineering agents.
+**Spec-driven engineering · capability control · bounded context · evidence gates · adversarial review · Unlazy · convergence**
 
 </div>
 
 ---
 
+> [!CAUTION]
+> **This repository is not Alimango's governance authority and must not be consumed as governance by any Alimango product or internal project.** It is a public idea, research, experiment, and contribution-intake surface. A public merge, release, proposal status, or passing CI run does **not** mean an idea has been adopted internally. Internal adoption, if any, is separately re-derived, reviewed, tested, and governed outside this public repository.
+
 > [!IMPORTANT]
-> This repository is designed as **public goods**. Everything required to understand the published control model should be explainable from public material in this repository. Documentation and examples must not depend on, identify, or imply confidential projects, repositories, deployments, customers, environments, or organizational topology.
+> This lab is maintained as **public goods** and must remain public-safe and self-contained. Do not submit credentials, personal/customer data, confidential source, proprietary implementation details, non-public endpoints, private repository names, deployment details, customers, or organizational topology.
 
 ## Why this exists
 
-AI agents are useful because they can act. That means reliability cannot depend on a model remembering a long prompt or sounding confident. A useful control plane needs explicit authority, bounded permissions, context provenance, executable evidence, independent challenge, and terminal-state discipline.
+AI-agent control ideas improve when failure modes, schemas, fixtures, and experiments can be challenged in public. This lab provides a place to publish and test those ideas without making the public repository an operational dependency or source of authority.
 
-This project makes those controls inspectable, executable, testable, portable, and improvable in public.
+The intended flow is:
 
-## Control plane
-
-```mermaid
-flowchart TD
-    A[Task / Request] --> B[Authority Resolution]
-    B --> C[Task Router + Risk Classification]
-    C --> D[Spec Kit Contract]
-    D --> E[Capability Decision]
-    E --> F[Bounded Context Compile]
-    F --> G[Agent Execution]
-    G --> H[Validation + Evidence]
-    H --> I[Independent Review]
-    I --> J[Unlazy]
-    J --> K[Convergence]
-    K --> L{Terminal State}
-    L -->|all gates pass| M[Complete]
-    L -->|required gate open| N[Blocked / Partial / Needs Changes]
+```text
+public idea / failure case / experiment
+                ↓
+          public review + CI
+                ↓
+       accepted-for-lab reference
+                ↓
+      optional independent adoption
+      outside this public repository
 ```
 
-The model is intentionally **not** the policy engine. Models propose actions. Governance determines whether actions are authorized and whether evidence is sufficient.
+There is intentionally **no automatic promotion path** from public `main` into any private or production governance system.
 
 ## What is included
 
-| Control family | Reference implementation |
+| Area | Public reference material |
 | --- | --- |
-| **Constitution / authority** | `.specify/memory/constitution.md`, `AGENTS.md`, `GOVERNANCE.md`, `control/source-authority.json` |
-| **Spec Kit** | `.specify/templates/`, `.agents/workflows/spec-kit.md`, executable spec fixture/checker |
-| **Task routing** | `.agents/skills/task-router/` plus risk/capability classification |
-| **Action governance** | capability classes, R0–R4 risk, allow/approval/deny policy, evaluator CLI |
-| **Human approval** | scoped approval semantics for material side effects |
-| **Tool contracts** | typed schema for scope, side effects, auth, destinations, pre/postconditions |
-| **Context governance** | authority-aware RAG/CAG, provenance, freshness, sensitivity, budgets, compiler CLI |
-| **Supply-chain controls** | source/ref/license/install/network/permission review + external-adoption harness |
-| **Done-When / Proof** | acceptance gates defined before implementation |
-| **Independent review** | read-only adversarial challenge with structured verdicts |
-| **Audit kernel** | deterministic review inputs, coverage, findings, evidence and fingerprints |
-| **Unlazy** | final anti-shortcut completion gate + executable checker |
-| **Convergence** | reconciliation of spec, tasks, gates, evidence, review, and reality |
-| **Lifecycle / cancellation** | explicit states, retry bounds, delegation and terminal outcomes |
-| **Roles / multi-agent work** | researcher, analyst, writer, implementer, reviewers, release coordination |
-| **Telemetry** | structured action, evidence, timing, retry, context and terminal-state events |
-| **Security / privacy / network** | prompt injection, SSRF, secrets, isolation, sensitivity, least capability |
-| **Testing / performance / UI** | reusable quality policies with risk-proportional evidence |
-| **Upgrade discipline** | version file, upgrade-manifest schema and pinned revision patterns |
+| Capability/action control | typed action/tool schemas, approval/deny patterns, synthetic fixtures |
+| Context governance | authority-aware RAG/CAG patterns, provenance, freshness, bounded-context experiments |
+| Evidence/completion | Done-When, Unlazy, convergence, review/evidence patterns |
+| Security | prompt injection, SSRF, secrets, isolation, least-capability reference controls |
+| Agent methods | public-safe skills/workflows for studying governance behavior inside this lab |
+| Proposals | stable AGP design records intended for challenge and improvement |
+| Experiments/benchmarks | reproducible public-safe ways to measure governance cost and effectiveness |
 
-## Repository architecture
+The `.agents/`, `.specify/`, `control/`, `harness/`, `schemas/`, `scripts/`, and `tests/` trees govern or exercise **this public lab itself**. Their presence does not make this repository an authority for another repository.
 
-```text
-AGENTS.md                     repo-local agent entry point
-CLAUDE.md                     Claude Code host shim
-GOVERNANCE.md                 project governance charter
-VERSION                       public reference version
-.specify/
-  memory/constitution.md      highest repo-local authority
-  templates/                  Spec Kit contracts
-.agents/
-  manifest.json               machine-readable control registry
-  policies/                   standing constraints
-  workflows/                  execution state machines
-  skills/                     reusable agent methods
-  roles/                      bounded agent role profiles
-adapters/                     model/host adapter reference patterns
-control/                      machine-readable authority/action/context policy
-harness/                      audit, context, capability, skill-TDD, adoption, parallel-work contracts
-schemas/                      typed tool/action/context/evidence/review/event/exception/upgrade contracts
-templates/consumer/           portable adopter/reference patterns
-scripts/                      deterministic validators + reference governance CLIs
-tests/                        executable governance regression/adversarial tests
-examples/                     synthetic tools, context, review, and completed Spec Kit fixture
-proposals/                    governance design proposals
-experiments/                  reproducible public-safe experiment protocol
-benchmarks/                   governance effectiveness + cost metrics
-docs/                         architecture, threats, controls, lifecycle, security, contributor guides
-.github/                      issue/PR templates, host instructions, governance CI
-```
+## Current proposals
 
-## Run the reference harness
+| Proposal | Focus |
+| --- | --- |
+| [`AGP-001`](proposals/AGP-001-capability-gated-tool-execution.md) | capability-gated tool execution |
+| [`AGP-002`](proposals/AGP-002-authority-aware-context-compilation.md) | authority-aware context compilation |
+| [`AGP-003`](proposals/AGP-003-evidence-gated-completion.md) | evidence-gated completion |
+| [`AGP-004`](proposals/AGP-004-verified-evidence-memory-supply-design.md) | structural evidence coverage, verified memory, skill supply chain, and design contracts |
 
-Core checks require only Python 3.11+.
+`accepted-for-lab` means only that a proposal is useful enough to keep as a public reference. It never means production or private adoption.
+
+## Run the public lab harness
+
+Core checks require Python 3.11+.
 
 ```bash
 python scripts/validate_public_lab.py
@@ -126,50 +88,27 @@ make test
 make fingerprint
 ```
 
-## Core proposals
-
-| Proposal | Problem it attacks |
-| --- | --- |
-| [`AGP-001`](proposals/AGP-001-capability-gated-tool-execution.md) | agents confusing tool availability with authorization |
-| [`AGP-002`](proposals/AGP-002-authority-aware-context-compilation.md) | stale, poisoned, or unbounded context and authority confusion |
-| [`AGP-003`](proposals/AGP-003-evidence-gated-completion.md) | false completion, skipped gates, and evidence drift |
-
-These are reference designs intended to be challenged, measured, and improved.
+Passing these commands proves only the state of this public lab revision.
 
 ## Contribution lifecycle
 
 ```text
 idea / failure case
       ↓
-issue / proposal
+issue / AGP / experiment
       ↓
-small enforceable control
+small enforceable reference control
       ↓
 positive + negative evidence
       ↓
 independent challenge
       ↓
-CI + convergence + Unlazy
+public CI
       ↓
-merge / release
+merge / reject / supersede
 ```
 
-A merge means the change has met this repository's contribution and validation requirements for the merged revision.
-
-## Use it as public goods
-
-You may study, fork, adapt, vendor, or pin this project under the Apache-2.0 license. Keep local product constraints and sensitive implementation details outside public contributions. If you integrate a revision elsewhere, pin the exact revision and preserve the authority, capability, evidence, and fail-closed semantics that matter to your use case.
-
-See [`docs/CONSUMER-MODEL.md`](docs/CONSUMER-MODEL.md) for a portable integration pattern.
-
-## Contribute to an open research track
-
-- [Capability-escalation adversarial fixtures](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/4)
-- [Bounded-context vs whole-repo benchmark](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/5)
-- [MCP / connector typed-contract fixtures](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/6)
-- [Stale-context and cache-poisoning tests](https://github.com/AlimangoStudio/Alimango-ai-governance/issues/7)
-
-Start with [`docs/CONTRIBUTOR-QUICKSTART.md`](docs/CONTRIBUTOR-QUICKSTART.md), the [`proposal template`](proposals/PROPOSAL-TEMPLATE.md), or the [`experiment template`](experiments/EXPERIMENT-TEMPLATE.md).
+Useful public work may later inspire a separately governed implementation elsewhere. Contributors should not assume or claim that this happened.
 
 ## Technical references
 
@@ -183,18 +122,12 @@ Start with [`docs/CONTRIBUTOR-QUICKSTART.md`](docs/CONTRIBUTOR-QUICKSTART.md), t
 - [`docs/INDEPENDENT-REVIEW.md`](docs/INDEPENDENT-REVIEW.md)
 - [`docs/MCP-AND-CONNECTORS.md`](docs/MCP-AND-CONNECTORS.md)
 - [`docs/FAILURE-MODE-CATALOG.md`](docs/FAILURE-MODE-CATALOG.md)
-- [`docs/CONSUMER-MODEL.md`](docs/CONSUMER-MODEL.md)
-
-## Public-scope rule
-
-Do not submit credentials, keys, personal/customer data, confidential source, proprietary implementation details, non-public endpoints, or organizational topology. Use synthetic examples and public references. See [`docs/PUBLIC-SCOPE.md`](docs/PUBLIC-SCOPE.md) and [`SECURITY.md`](SECURITY.md).
+- [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ---
 
 <div align="center">
 
-### Build agent governance that survives skeptical review.
-
-**Open controls. Explicit evidence. Portable public goods.**
+### Open ideas. Explicit evidence. No authority confusion.
 
 </div>
