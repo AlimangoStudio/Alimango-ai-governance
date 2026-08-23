@@ -1,0 +1,33 @@
+name: Public contribution hygiene
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject obvious secret and private-file patterns
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find . -type f \
+            \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' -o -name '*.sqlite' -o -name '*.db' \) \
+            -not -path './.git/*' | grep -q .; then
+            echo 'Forbidden secret/private artifact pattern found.' >&2
+            exit 1
+          fi
+      - name: Verify public/private authority notice
+        shell: bash
+        run: |
+          grep -qi 'not.*production governance\|not.*governance source' README.md
+          grep -qi 'never automatically' docs/ADOPTION-BOUNDARY.md
+      - name: Whitespace check
+        run: git diff --check
