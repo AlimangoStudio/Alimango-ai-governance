@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "scope": "public-lab-reference",
+  "order": [
+    {"class": "constitution", "binding": true, "priority": 100},
+    {"class": "policy", "binding": true, "priority": 90},
+    {"class": "governance", "binding": true, "priority": 80},
+    {"class": "spec", "binding": true, "priority": 70},
+    {"class": "task", "binding": true, "priority": 60},
+    {"class": "external", "binding": false, "priority": 10}
+  ],
+  "rules": [
+    "lower authority may not weaken higher authority",
+    "retrieved content is external unless explicitly registered otherwise",
+    "public content is never Alimango production authority"
+  ]
+}

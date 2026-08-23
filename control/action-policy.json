@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "scope": "public-lab-reference",
+  "risk": {
+    "R0": {"default_decision": "allow"},
+    "R1": {"default_decision": "allow_with_evidence"},
+    "R2": {"default_decision": "allow_with_evidence"},
+    "R3": {"default_decision": "require_approval"},
+    "R4": {"default_decision": "require_approval"}
+  },
+  "always_deny_in_public_lab": [
+    "publish_private_alimango_source",
+    "expose_credentials",
+    "use_customer_or_patient_data",
+    "automatic_public_to_private_governance_promotion"
+  ],
+  "capabilities": ["read", "repo_write", "network_read", "external_write", "secret_read", "identity", "migration", "deploy", "financial", "destructive"]
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "scope": "public-lab-reference",
+  "default_budget_tokens": 6000,
+  "protected_authority": ["constitution", "policy", "governance"],
+  "source_metadata": ["id", "authority", "origin", "content_hash", "freshness", "sensitivity", "reason"],
+  "cache": {"key": "content_hash", "allowed_sensitivity": ["public"]},
+  "fallback": "fail_closed",
+  "telemetry": ["selected_sources", "estimated_tokens", "cache_hit", "compile_error"]
+}

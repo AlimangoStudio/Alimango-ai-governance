@@ -1,0 +1,6 @@
+{
+  "repository": "your-org/your-private-governance",
+  "revision": "FULL_IMMUTABLE_COMMIT_SHA",
+  "mode": "fail-closed",
+  "public_reference_authoritative": false
+}

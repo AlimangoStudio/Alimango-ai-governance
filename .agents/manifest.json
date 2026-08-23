@@ -14,6 +14,7 @@
   "terminal_states": ["complete", "blocked", "partial", "cancelled", "needs_changes"],
   "required_workflows": ["spec-kit", "action-governance", "context-compile", "independent-review", "unlazy", "convergence"],
   "required_policies": ["core-engineering", "agent-actions", "context-security", "external-inputs", "model-provider", "supply-chain", "completion-evidence", "testing", "performance", "ui-quality", "human-approval", "lifecycle", "data-privacy", "tool-contracts", "telemetry", "network-safety"],
-  "required_skills": ["task-router", "done-when-proof", "adversarial-review", "blast-radius-proof", "parallel-agent-work", "session-continuity", "task-reporting-standard", "unlazy", "action-governance"],
+  "required_skills": ["task-router", "done-when-proof", "adversarial-review", "blast-radius-proof", "regression-proof", "compound-engineering", "governance-validation", "parallel-agent-work", "session-continuity", "task-reporting-standard", "unlazy", "action-governance"],
+  "required_harnesses": ["audit-kernel", "capability-doctor", "context-compiler", "skill-tdd", "external-adoption", "parallel-work"],
   "roles": ["researcher", "implementer", "reviewer", "security-reviewer", "release-coordinator"]
 }

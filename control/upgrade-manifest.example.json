@@ -1,0 +1,11 @@
+{
+  "from": "1.0-reference",
+  "to": "1.1-reference",
+  "added": ["example-control"],
+  "changed": [],
+  "deprecated": [],
+  "removed": [],
+  "breaking": false,
+  "manual_migration": [],
+  "validation": ["python scripts/validate_agent_controls.py"]
+}

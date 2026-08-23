@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Governance Upgrade Manifest",
+  "type": "object",
+  "required": ["from", "to", "added", "changed", "deprecated", "removed", "breaking", "manual_migration", "validation"],
+  "properties": {
+    "from": {"type": "string"},
+    "to": {"type": "string"},
+    "added": {"type": "array", "items": {"type": "string"}},
+    "changed": {"type": "array", "items": {"type": "string"}},
+    "deprecated": {"type": "array", "items": {"type": "string"}},
+    "removed": {"type": "array", "items": {"type": "string"}},
+    "breaking": {"type": "boolean"},
+    "manual_migration": {"type": "array", "items": {"type": "string"}},
+    "validation": {"type": "array", "items": {"type": "string"}}
+  }
+}

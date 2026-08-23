@@ -21,15 +21,18 @@ jobs:
         run: python scripts/validate_public_lab.py
       - name: Validate agent control harness
         run: python scripts/validate_agent_controls.py
+      - name: Capability doctor self-check
+        run: python scripts/capability_doctor.py --require python --require AGENTS.md
       - name: Python syntax
-        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py
+        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py scripts/capability_doctor.py
       - name: JSON parse
         shell: bash
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          files=list(Path('schemas').glob('*.json'))+list(Path('examples').glob('*.json'))+[Path('.agents/manifest.json')]
+          files=(list(Path('schemas').glob('*.json'))+list(Path('examples').glob('*.json'))+
+                 list(Path('control').glob('*.json'))+[Path('.agents/manifest.json')])
           for path in files:
               json.loads(path.read_text(encoding='utf-8'))
           print(f'PASS: parsed {len(files)} JSON files')
