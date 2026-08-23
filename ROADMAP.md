@@ -1,11 +1,37 @@
-# Public Lab Roadmap
+# Public Governance Lab Roadmap
 
-Near-term focus:
+## v1 — Reference control plane
 
-1. collect narrow governance improvement proposals,
-2. add synthetic tests for recurring agent failure modes,
-3. compare public agent-governance patterns with explicit trade-offs,
-4. improve contribution quality and review automation,
-5. keep the public/private trust boundary obvious and mechanically protected.
+- [x] explicit public/private authority boundary
+- [x] public-lab constitution and agent entry point
+- [x] Spec Kit templates and workflow
+- [x] action/capability governance
+- [x] bounded context / RAG-CAG governance
+- [x] Done-When / evidence contracts
+- [x] independent review
+- [x] Unlazy and convergence
+- [x] lifecycle/cancellation model
+- [x] tool/evidence/context/review/event schemas
+- [x] supply-chain, privacy, network, model/provider, testing, performance, UI policies
+- [x] role/delegation model
+- [x] deterministic repository validators and CI
 
-The roadmap intentionally does not mirror the private governance repository.
+## v1.x — Community test corpus
+
+- [ ] expand synthetic prompt/tool-injection fixtures
+- [ ] add reproducible stale-context and cache-poisoning cases
+- [ ] add capability escalation and destructive-ambiguity fixtures
+- [ ] add side-by-side control mechanism benchmarks
+- [ ] publish more portable adapter examples
+
+## v2 research
+
+- policy compilation into multiple agent hosts
+- machine-checkable approval tokens
+- context-selection evaluation suites
+- control-drift detection
+- reviewer independence metrics
+- governance cost/latency budgets
+- formalized control upgrade manifests
+
+The roadmap evolves the public reference system only; it does not mirror private production governance.

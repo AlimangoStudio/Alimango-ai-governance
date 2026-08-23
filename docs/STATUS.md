@@ -1,10 +1,9 @@
-# Repository Status
+# Public Lab Status
 
-This is the public Alimango AI Governance Lab.
+**Reference architecture:** v1 complete  
+**Production authority:** no  
+**Private-runtime dependency:** none  
+**Primary validation:** `scripts/validate_public_lab.py`, `scripts/validate_agent_controls.py`  
+**CI:** governance reference validation on pull requests and pushes to `main`
 
-**Authority:** advisory only  
-**Production governance:** private and separate  
-**Automatic promotion:** prohibited  
-**PAPPS dependency:** none
-
-Public issues/PRs can be merged for research value and still be rejected for private adoption later.
+The repository now contains public-safe reference controls for authority, specifications, capabilities, context, tools, side effects, evidence, review, lifecycle, completion, telemetry, roles, supply chain, privacy, network safety, performance, testing, and UI quality.

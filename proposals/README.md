@@ -1,11 +1,9 @@
-# Proposals
+# Alimango Governance Proposals (AGPs)
 
-Use this directory for concrete, reviewable governance ideas that benefit from versioned examples or design notes.
+Use AGPs for substantive control ideas that benefit from stable, reviewable design records. Proposals are public research artifacts.
 
-A proposal should describe the failure mode, control, evidence, risks, and adoption considerations. Keep project-private details out of examples.
+Recommended naming: `AGP-001-short-title.md`.
 
-Suggested filename format:
+Statuses: `draft`, `experiment`, `accepted-for-lab`, `rejected`, `superseded`.
 
-`YYYY-MM-short-topic.md`
-
-Merged proposals remain public research artifacts; they are not production governance.
+No AGP status means private production adoption. Use `PROPOSAL-TEMPLATE.md` and link reproducible examples/tests where practical.

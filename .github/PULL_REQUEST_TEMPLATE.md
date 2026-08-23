@@ -1,28 +1,34 @@
-## Problem
+## Failure mode / objective
 
-What failure mode, gap, or opportunity does this PR address?
+What concrete governance problem does this PR address?
 
-## Proposed improvement
+## Control change
 
-Describe the smallest useful change and why it is better than leaving the current public lab unchanged.
+What mechanism changes? Why is this smaller/stronger than alternatives?
+
+## Capability and side effects
+
+List any changes to read/write/network/secret/external/destructive capability.
 
 ## Evidence
 
-List tests, examples, measurements, references, or reproducible observations that support the proposal.
+- [ ] positive path
+- [ ] negative/bypass path
+- [ ] relevant regression checks
+- [ ] `python scripts/validate_public_lab.py`
+- [ ] `python scripts/validate_agent_controls.py`
 
-## Risk / security impact
+## Security / trust boundary
 
-- [ ] No secrets, private project data, or proprietary Alimango source are included.
-- [ ] External code/text is either original, properly attributed, or permitted for redistribution.
-- [ ] The proposal does not weaken fail-closed behavior, isolation, authorization, or approval boundaries.
-- [ ] New tool/network/side-effect permissions are explicitly described.
-- [ ] Trade-offs and known limitations are documented.
+- [ ] no secrets/private Alimango source/customer data
+- [ ] no automatic public-to-private promotion path
+- [ ] external sources/refs/licenses identified where relevant
+- [ ] fail-closed behavior preserved
 
-## Private-adoption boundary
+## Completion
 
-- [ ] I understand that merging this PR into the public lab does **not** make it Alimango production governance.
-- [ ] I understand that any private adoption is a separate review and may reimplement, modify, combine, or reject this proposal.
+- [ ] open limitations are documented
+- [ ] required independent review is addressed
+- [ ] final claims match current evidence
 
-## Reviewer notes
-
-Anything reviewers should verify independently before accepting this into the public idea base?
+A merge in this public repo means retained for research/reference, not adopted production governance.

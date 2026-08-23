@@ -1,6 +1,32 @@
-# Documentation
+# Documentation Index
 
-- `WHY-TWO-REPOS.md` — rationale for separating public research from private authority.
-- `ADOPTION-BOUNDARY.md` — hard public-to-private trust boundary.
-- `REVIEW-PLAYBOOK.md` — maintainer review criteria.
-- `GOOD-FIRST-CONTRIBUTIONS.md` — small, safe ways to contribute.
+## Architecture
+- `AGENT-CONTROL-PLANE.md`
+- `AGENT-LIFECYCLE.md`
+- `ROLE-MODEL.md`
+- `CONTROL-TAXONOMY.md`
+- `CONTROL-MATRIX.md`
+
+## Core workflows
+- `SPEC-KIT.md`
+- `UNLAZY.md`
+- `INDEPENDENT-REVIEW.md`
+- `CONTEXT-ENGINEERING.md`
+- `TOOL-CONTRACTS.md`
+- `TELEMETRY-CONTRACT.md`
+
+## Security / trust
+- `THREAT-MODEL.md`
+- `FAILURE-MODE-CATALOG.md`
+- `PROMPT-INJECTION.md`
+- `SUPPLY-CHAIN.md`
+- `HUMAN-APPROVALS.md`
+- `ADOPTION-BOUNDARY.md`
+- `WHY-TWO-REPOS.md`
+
+## Contributors
+- `CONTRIBUTOR-QUICKSTART.md`
+- `EXPERIMENT-PROTOCOL.md`
+- `RFC-PROCESS.md`
+- `GOOD-FIRST-CONTRIBUTIONS.md`
+- `GLOSSARY.md`

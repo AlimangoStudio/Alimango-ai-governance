@@ -1,5 +1,7 @@
-# Examples
+# Public-Safe Examples
 
-Examples in this directory should be self-contained, synthetic, and safe to publish. They are demonstrations for discussion and review, not drop-in production policy.
+Examples demonstrate control contracts using synthetic data only. They are intentionally small enough to inspect.
 
-Prefer examples that show both the intended behavior and the failure case the control prevents.
+Current examples cover typed tool contracts, action decisions, compiled-context manifests, and independent-review verdicts.
+
+Do not add live credentials, private endpoints, customer data, private repository content, or destructive targets.

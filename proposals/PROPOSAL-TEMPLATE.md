@@ -1,33 +1,41 @@
-# Proposal: <short title>
+# AGP-[NNN]: [Control / Proposal Title]
+
+**Status:** draft  
+**Authors:** [names/handles]  
+**Control family:** [authority/capability/context/tool/evidence/review/etc.]
 
 ## Failure mode
 
-What specific problem can occur?
+Describe the concrete unsafe, incorrect, expensive, or unverifiable agent behavior.
 
-## Scope
+## Threat / bypass analysis
 
-Which agent, workflow, tool boundary, or governance layer is affected?
+How can the failure be triggered? How could this proposal itself be bypassed?
 
 ## Proposed control
 
-Describe the smallest mechanism that addresses the problem.
+Describe the smallest enforceable mechanism.
 
-## Evidence
+## Capability impact
 
-How can reviewers reproduce or verify the claim?
+What permissions become narrower, broader, or newly explicit?
 
-## Security and side effects
+## Context / data impact
 
-Permissions, network access, data exposure, destructive actions, isolation, secrets, or supply-chain implications.
+Authority, provenance, sensitivity, cache, token, and privacy effects.
 
-## Performance and context cost
+## Evidence plan
 
-Expected runtime, token, memory, dependency, or maintenance cost.
+Positive, negative, regression, and adversarial proof.
 
-## Alternatives considered
+## Cost / trade-offs
 
-Why is this preferable to simpler or existing controls?
+Latency, token, compute, implementation, maintenance, false positives, compatibility.
 
-## Private-adoption considerations
+## Alternatives
 
-What would need independent verification before the idea could be considered for Alimango's private governance system?
+Why not a simpler control? What stronger options exist?
+
+## Public/private adoption boundary
+
+State what would still require independent private re-derivation and validation. Public acceptance of this proposal is not production adoption.

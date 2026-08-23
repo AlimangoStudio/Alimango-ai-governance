@@ -1,57 +1,50 @@
-# Contributing to the Alimango AI Governance Lab
+# Contributing to Alimango AI Governance Lab
 
-This public repository exists to collect and improve ideas that may strengthen Alimango's private AI engineering governance system.
+This repository is for people who want to make AI-agent engineering controls more explicit, testable, portable, and difficult to bypass.
 
-## Before you contribute
+> A public merge means **retained for research/reference**, not adopted into private Alimango production governance.
 
-This repository is **advisory only**. A merged issue, discussion, or pull request does not become production governance and does not create a dependency for PAPPS or any other Alimango project.
+## Good contribution shapes
 
-Do not submit:
+- a reproducible agent failure case;
+- a smaller/stronger capability or approval mechanism;
+- a typed tool/context/evidence contract;
+- an adversarial test fixture;
+- an improvement to Spec Kit, Done-When, Unlazy, convergence, or review;
+- a measurable context/RAG/CAG optimization that preserves authority;
+- a supply-chain, prompt-injection, privacy, or network-safety control;
+- a comparison showing why one control mechanism is stronger or cheaper than another.
 
-- secrets, credentials, tokens, private keys, or environment files
-- patient/client/customer data or other private production data
-- proprietary source code you do not have permission to disclose
-- private Alimango project internals
-- malware, credential harvesting, hidden network callbacks, or destructive payloads
-- copied third-party material whose license does not permit redistribution
+## Start with the failure mode
 
-## Good proposals
+State what can go wrong, the smallest scenario that reproduces it, and why existing controls are insufficient. Then describe the proposed control, bypasses, and evidence.
 
-A strong proposal usually states:
+For substantial repository behavior changes, use the Spec Kit templates under `.specify/templates/`.
 
-1. **Failure mode** — what can go wrong today?
-2. **Scope** — what part of agent/governance behavior changes?
-3. **Proposed control** — what concrete mechanism addresses the problem?
-4. **Evidence** — tests, examples, measurements, prior incidents, or reproducible demonstrations.
-5. **Trade-offs** — complexity, latency, token cost, false positives, or compatibility impact.
-6. **Security impact** — whether permissions, secrets, network access, side effects, tenancy, privacy, or supply-chain trust are affected.
-7. **Adoption notes** — what would need to be independently verified before a private implementation could be considered.
+## Quality bar
 
-## Pull-request expectations
+Prefer executable proof > deterministic validator > typed contract > service/capability boundary > workflow > prose-only reminder.
 
-- Keep PRs focused and reviewable.
-- Prefer executable checks over prose-only guardrails when practical.
-- Do not weaken fail-closed controls to make an example easier to run.
-- Do not assume a third-party tool, model, repository, benchmark, or article is authoritative.
-- Pin or identify external sources precisely enough for reviewers to verify them.
-- Make hidden assumptions explicit.
-- Avoid adding a second framework when a small improvement to an existing concept is sufficient.
-- Avoid generated bulk content that has not been manually reviewed for relevance and correctness.
+A strong PR is focused, public-safe, explicit about permissions and side effects, honest about limitations, and includes negative-path evidence where practical.
 
-## Review outcomes
+## Local validation
 
-Maintainers may:
+```bash
+python scripts/validate_public_lab.py
+python scripts/validate_agent_controls.py
+python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py
+```
 
-- merge a contribution because it is useful to keep in the public lab,
-- request changes,
-- close it as redundant, unsafe, unverifiable, or out of scope,
-- extract only the underlying idea and reimplement it differently elsewhere,
-- decide not to adopt a merged public contribution into private governance.
+No third-party Python packages are required for the repository validators.
 
-A public merge means **retained for public exploration**, not **adopted by Alimango production governance**.
+## Do not submit
 
-## Private adoption boundary
+Secrets, credentials, keys, customer/patient/tenant data, private Alimango source, proprietary project internals, malware, hidden callbacks, destructive payloads, material you lack rights to redistribute, or any automatic public-to-private governance sync/runtime dependency.
 
-Any idea selected for private use is re-evaluated separately. Private adoption may involve rewriting, reducing, combining, or rejecting parts of the public proposal after security, compatibility, regression, and governance review.
+## Review criteria
 
-The public repository never automatically synchronizes into the private governance repository.
+Maintainers review relevance, control strength, bypass resistance, least capability, fail-closed behavior, evidence, compatibility, dependency/supply-chain cost, context/token/latency impact, and whether the proposal duplicates a stronger mechanism.
+
+Maintainers may merge, request changes, close, extract only the idea, or reimplement it differently elsewhere. Public acceptance never obligates private adoption.
+
+See `docs/CONTRIBUTOR-QUICKSTART.md`, `docs/RFC-PROCESS.md`, `docs/THREAT-MODEL.md`, and `SECURITY.md`.
