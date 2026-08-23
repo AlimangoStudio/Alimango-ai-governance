@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlimangoStudio/Alimango-ai-governance/schemas/capability-contract.schema.json",
+  "title": "Synthetic Agent Capability Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "agent", "capabilities", "default_decision"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "agent": {"type": "string", "minLength": 1},
+    "default_decision": {"const": "deny"},
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "mode", "scope"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9._-]+$"},
+          "mode": {"type": "string", "enum": ["read", "write", "execute", "approve"]},
+          "scope": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+          "requires_approval": {"type": "boolean", "default": false},
+          "max_calls": {"type": "integer", "minimum": 1}
+        }
+      }
+    }
+  }
+}
