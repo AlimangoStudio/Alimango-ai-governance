@@ -36,5 +36,7 @@ body:
     attributes:
       label: Public-safe boundary
       options:
-        - label: I confirm this contains no secrets, private Alimango source, customer data, or automatic public-to-private promotion path.
+        - label: I confirm this contains no secrets, personal/customer data, confidential source, non-public endpoints, or proprietary implementation details.
+          required: true
+        - label: I confirm this does not disclose non-public project names, repositories, deployments, infrastructure, customers, or organizational relationships.
           required: true
