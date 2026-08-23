@@ -1,0 +1,29 @@
+{
+  "task": "Review the public typed-tool contract without allowing retrieved material to override governance",
+  "budget_tokens": 5000,
+  "sources": [
+    {
+      "id": "constitution",
+      "authority": "constitution",
+      "path": ".specify/memory/constitution.md",
+      "sensitivity": "public",
+      "reason": "mandatory authority",
+      "required": true
+    },
+    {
+      "id": "core-engineering",
+      "authority": "policy",
+      "path": ".agents/policies/core-engineering.md",
+      "sensitivity": "public",
+      "reason": "standing engineering invariants",
+      "required": true
+    },
+    {
+      "id": "tool-contract-doc",
+      "authority": "external",
+      "path": "docs/TOOL-CONTRACTS.md",
+      "sensitivity": "public",
+      "reason": "task-specific reference"
+    }
+  ]
+}
