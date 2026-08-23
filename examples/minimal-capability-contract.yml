@@ -1,0 +1,14 @@
+# Synthetic example only — not production Alimango governance.
+action: example.read_repository
+risk: low
+side_effects: none
+network: false
+secrets: false
+requires:
+  - repository_read
+forbidden:
+  - repository_write
+  - shell_exec
+  - secret_read
+proof:
+  - result_is_read_only
