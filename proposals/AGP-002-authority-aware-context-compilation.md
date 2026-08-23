@@ -1,6 +1,6 @@
 # AGP-002: Authority-Aware Bounded Context Compilation
 
-**Status:** accepted-for-lab  
+**Status:** accepted-for-reference  
 **Control family:** context / RAG / CAG / prompt-injection defense
 
 ## Failure mode
@@ -25,13 +25,13 @@ Each source carries:
 - selection reason,
 - estimated context cost.
 
-Mandatory authority is selected first. Task-specific retrieval is then added under a budget. Advisory/retrieved sources remain lower authority even when their content contains imperative language.
+Mandatory authority is selected first. Task-specific retrieval is then added under a budget. Advisory or retrieved sources remain lower authority even when their content contains imperative language.
 
-Stable public-safe controls may be cache-augmented by content hash. Task-specific code or documents may be retrieved just-in-time. Private/sensitive data is excluded from public caches and must follow a separate protected-data policy in real systems.
+Stable public-safe controls may be cache-augmented by content hash. Sensitive inputs require an appropriate protected-data policy and must not be placed in public fixtures, caches, logs, or examples.
 
 ## Fail-closed behavior
 
-Compilation blocks when mandatory authority is missing, required authority exceeds the declared budget, a source escapes its allowed root, or this public reference is asked to compile a non-public source.
+Compilation blocks when mandatory authority is missing, required authority exceeds the declared budget, a source escapes its allowed root, or the public reference compiler is asked to compile a non-public source.
 
 There is no fallback that silently drops the constitution to make the prompt fit.
 
@@ -55,6 +55,6 @@ Reference surfaces:
 
 Useful measurements include selected/omitted sources, estimated tokens, authority coverage, cache hit rate, compile errors, stale-source rate, and task success/regression rate.
 
-## Public/private boundary
+## Portability
 
-The public compiler handles public files only and is a reference mechanism, not the private Alimango compiler or a production dependency.
+The compiler is a reference mechanism. Adopters may implement retrieval and caching differently, but should preserve explicit authority, provenance, sensitivity, freshness, bounded context, and fail-closed handling of mandatory sources.
