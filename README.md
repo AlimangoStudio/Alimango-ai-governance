@@ -20,7 +20,7 @@
 > **This repository is not Alimango's governance authority and must not be consumed as governance by any Alimango product or internal project.** It is a public idea, research, experiment, and contribution-intake surface. A public merge, release, proposal status, or passing CI run does **not** mean an idea has been adopted internally. Internal adoption, if any, is separately re-derived, reviewed, tested, and governed outside this public repository.
 
 > [!IMPORTANT]
-> Everything here must remain public-safe and self-contained. Do not submit credentials, personal/customer data, confidential source, proprietary implementation details, non-public endpoints, private repository names, deployment details, customers, or organizational topology.
+> This lab is maintained as **public goods** and must remain public-safe and self-contained. Do not submit credentials, personal/customer data, confidential source, proprietary implementation details, non-public endpoints, private repository names, deployment details, customers, or organizational topology.
 
 ## Why this exists
 
