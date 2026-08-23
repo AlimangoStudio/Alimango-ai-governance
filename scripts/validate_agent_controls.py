@@ -7,8 +7,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED = [
-    "AGENTS.md", "GOVERNANCE.md", ".specify/memory/constitution.md",
+    "AGENTS.md", "CLAUDE.md", "GOVERNANCE.md", ".specify/memory/constitution.md",
+    ".github/copilot-instructions.md", "adapters/README.md", "adapters/codex.md", "adapters/claude-code.md",
     ".agents/README.md", ".agents/manifest.json",
+    ".agents/policies/secrets.md", ".agents/policies/isolation.md", ".agents/policies/self-protection.md",
     ".agents/workflows/spec-kit.md", ".agents/workflows/action-governance.md",
     ".agents/workflows/context-compile.md", ".agents/workflows/independent-review.md",
     ".agents/workflows/unlazy.md", ".agents/workflows/convergence.md",
@@ -21,7 +23,7 @@ REQUIRED = [
     "schemas/tool-contract.schema.json", "schemas/action-decision.schema.json",
     "schemas/evidence.schema.json", "schemas/context-manifest.schema.json",
     "schemas/review-verdict.schema.json", "schemas/agent-event.schema.json",
-    "schemas/upgrade-manifest.schema.json"
+    "schemas/upgrade-manifest.schema.json", "schemas/exception.schema.json"
 ]
 
 
@@ -52,6 +54,8 @@ def main() -> int:
     action = json.loads((ROOT / "control/action-policy.json").read_text(encoding="utf-8"))
     if action["risk"]["R4"]["default_decision"] != "require_approval":
         fail("R4 actions must require approval in reference policy")
+    if "automatic_public_to_private_governance_promotion" not in action.get("always_deny_in_public_lab", []):
+        fail("public-to-private automatic promotion must remain denied")
 
     constitution = (ROOT / ".specify/memory/constitution.md").read_text(encoding="utf-8").lower()
     for marker in ("fail closed", "least capability", "spec-driven", "independent challenge", "no overclaiming"):

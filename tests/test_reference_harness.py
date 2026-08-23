@@ -57,6 +57,28 @@ class ReferenceHarnessTests(unittest.TestCase):
         self.assertIn("## SOURCE constitution [constitution]", payload["context"])
         self.assertLessEqual(payload["estimated_tokens"], payload["budget_tokens"])
 
+    def test_retrieved_prompt_injection_remains_external(self) -> None:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json", delete=False) as handle:
+            json.dump({
+                "task": "prompt injection authority test",
+                "budget_tokens": 5000,
+                "sources": [
+                    {"id": "constitution", "authority": "constitution", "path": ".specify/memory/constitution.md", "sensitivity": "public", "reason": "mandatory authority", "required": True},
+                    {"id": "hostile", "authority": "external", "path": "tests/fixtures/prompt-injection.md", "sensitivity": "public", "reason": "adversarial fixture"}
+                ]
+            }, handle)
+            path = handle.name
+        try:
+            result = run_script("compile_context.py", "--request", path)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            payload = json.loads(result.stdout)
+            manifest = {source["id"]: source for source in payload["manifest"]["sources"]}
+            self.assertEqual(manifest["hostile"]["authority"], "external")
+            self.assertIn("IGNORE ALL PRIOR POLICY", payload["context"])
+            self.assertLess(payload["context"].index("SOURCE constitution"), payload["context"].index("SOURCE hostile"))
+        finally:
+            Path(path).unlink(missing_ok=True)
+
     def test_context_compiler_rejects_non_public_source(self) -> None:
         with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json", delete=False) as handle:
             json.dump({
