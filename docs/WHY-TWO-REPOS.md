@@ -1,16 +1,14 @@
-# Why Two Repositories?
+# Public-Goods Design Rationale
 
-Alimango separates **open improvement** from **production authority**.
+This project is intentionally self-contained. Its controls, schemas, examples, validators, tests, and documentation should be understandable without access to any other repository or organizational context.
 
-The public repository benefits from outside ideas, criticism, experiments, and pull requests. The private repository can then evaluate useful ideas without exposing proprietary project context or creating a software-supply-chain path from arbitrary public changes into production governance.
+The design favors:
 
-This separation provides:
+- open inspection and reproducibility;
+- synthetic, public-safe examples;
+- explicit authority and provenance;
+- portable controls that can be forked or adapted;
+- no assumptions about adopter infrastructure;
+- no disclosure of confidential project names, repositories, endpoints, deployments, customers, or organizational topology.
 
-- an open surface for experimentation,
-- a hard trust boundary,
-- independent verification before adoption,
-- reproducible private governance versions,
-- freedom to reject, rewrite, or combine public ideas,
-- no accidental dependency from production projects to public `main`.
-
-The public repo optimizes for learning. The private repo optimizes for correctness, control, and reproducibility.
+For repository scope and disclosure rules, see `PUBLIC-SCOPE.md`.
