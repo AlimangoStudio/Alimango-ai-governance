@@ -15,19 +15,7 @@
 
 ---
 
-## The one rule that matters
-
-> **Nothing in this repository is Alimango production governance.**
->
-> PAPPS and other Alimango projects must never consume this repository as authoritative policy, runtime governance, or an automatic update source.
-
-This repo is where ideas get challenged in public. The private Alimango governance repository is where selected ideas are independently re-derived, tested, audited, versioned, and—only then—made authoritative.
-
-## Why this exists
-
-AI-agent governance improves faster when people can challenge assumptions, show failure cases, compare approaches, and submit experiments without getting a write path into production policy.
-
-So Alimango uses a hard two-repository model:
+Alimango uses a hard two-repository model:
 
 ```text
                     OPEN SIDE
@@ -57,75 +45,34 @@ So Alimango uses a hard two-repository model:
                     └─────────┬─────────┘
                               │ pinned + fail-closed
                               ▼
-                     PAPPS / future apps
+                         webapps/apps
 
                   PRODUCTION SIDE
 ```
 
-A public PR being merged means **“this is useful enough to keep exploring.”** It does **not** mean **“Alimango adopted this.”**
 
-## What we want to explore
+How the PAPPS governing harness works
 
-| Track | Good contributions |
-| --- | --- |
-| **Agent action governance** | capability boundaries, approvals, destructive-action controls, typed tool contracts |
-| **Spec-driven engineering** | stronger requirements, planning checks, task decomposition, convergence gates |
-| **Evidence & validation** | Done-When/Proof, regression proof, independent review, audit kernels |
-| **Context engineering** | bounded retrieval, RAG/CAG, freshness, provenance, cache invalidation |
-| **Security** | secrets, SSRF, tenant/workspace isolation, prompt/tool injection defenses |
-| **Reliability** | cancellation, terminal states, bounded retries, fail-closed behavior |
-| **Performance** | low-compute patterns, context/token budgets, efficient validation |
-| **Developer experience** | deterministic bootstrap, multi-agent compatibility, upgrade manifests |
+The governing harness is the control system around development. It does not replace coding; it controls how work is planned, implemented, reviewed, tested, and declared complete.
 
-## The quality bar
+Constitution — the highest authority
+The Constitution defines the non-negotiable engineering rules: protect golden paths, preserve tenant isolation, fail closed, avoid destructive shortcuts, validate real behavior, keep deployment safe, and never call work “done” without evidence. Specs, agents, and implementation decisions must conform to it.
+Spec Kit — defines exactly what is being built
+Before a meaningful behavior change, the work gets a numbered spec with the required artifacts such as spec.md, plan.md, tasks.md, research/decisions where needed, and gate evidence. It establishes scope, acceptance criteria, blast radius, risks, migration/deployment requirements, and tests. This prevents an agent from improvising a solution without a contract.
 
-The best contributions do more than say *“agents should be careful.”* They make the safe behavior easier to enforce.
+Governing harness — controls execution
+The .agents/ system routes the task, loads only the relevant context, applies engineering/security/performance policies, and determines the required Done-When gates. The normal flow is roughly:
 
-We prefer:
+Task → context → Spec Kit → blast-radius analysis → implementation → tests → security/tenancy/performance checks → browser/E2E where applicable → audit/review → convergence → Unlazy → commit/merge → safe deployment → live verification.
 
-```text
-executable test
-    > validator / static gate
-        > schema / typed contract
-            > safer service boundary
-                > reusable workflow
-                    > prose-only warning
-```
+Different risk levels automatically require stronger evidence. Finance, clinical data, authentication, tenancy, integrations, migrations, and production infrastructure receive stricter treatment.
 
-A strong proposal normally includes:
-
-- a concrete failure mode,
-- the smallest control that removes it,
-- evidence or a reproducible example,
-- security and side-effect analysis,
-- context/compute/maintenance cost,
-- known limitations and trade-offs.
-
-## What gets rejected quickly
-
-We are comfortable closing PRs that are:
-
-- weaker than an existing pattern,
-- unsafe or fail-open,
-- unverifiable,
-- generated bulk noise,
-- secretly permission-expanding,
-- a large framework looking for a problem,
-- dependent on trusting public content at runtime,
-- unrelated to engineering/agent governance.
-
-**Good ideas survive review. Bad ideas do not need backwards compatibility.**
-
-## Trust boundary
-
-This repository must never contain:
-
-- Alimango private source code,
-- production credentials or tokens,
-- private keys or environment files,
-- customer/patient/tenant data,
-- proprietary project internals,
-- a workflow that automatically promotes public changes into private governance.
+Audit/reviewer layer — challenges the implementation
+The implementation is not trusted merely because the coding agent says it works. The audit system checks requirements, correctness, regressions, tenant isolation, security boundaries, financial/data integrity, concurrency, migrations, integrations, UI, and deployment. High-risk work ideally receives genuinely independent reviewer contexts.
+Unlazy — the final anti-shortcut gate
+Unlazy asks, effectively: “Is this actually finished, or did we stop when the code looked plausible?” It looks for unchecked tasks, TODOs, skipped validation, placeholder implementations, untested failure paths, missing browser/live proof, undocumented assumptions, stale evidence, and incomplete handoffs. A feature can compile and have passing unit tests and still fail Unlazy.
+Convergence — reconcile everything before completion
+Findings from implementation, tests, audits, browser QA, security review, and Unlazy are reconciled back against the spec. Open issues must either be fixed or explicitly recorded as remaining gates. The harness prevents contradictory states such as tasks.md saying complete while GATES.md still contains a blocker.
 
 See [`docs/ADOPTION-BOUNDARY.md`](docs/ADOPTION-BOUNDARY.md) for the hard boundary.
 
