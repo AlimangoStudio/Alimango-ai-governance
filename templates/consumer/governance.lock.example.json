@@ -1,6 +1,5 @@
 {
-  "repository": "your-org/your-private-governance",
+  "repository": "example-org/agent-governance",
   "revision": "FULL_IMMUTABLE_COMMIT_SHA",
-  "mode": "fail-closed",
-  "public_reference_authoritative": false
+  "mode": "fail-closed"
 }

@@ -6,6 +6,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 FORBIDDEN_NAMES = {".env", "id_rsa", "id_ed25519"}
 FORBIDDEN_SUFFIXES = {".pem", ".p12", ".pfx", ".sqlite", ".db"}
+REQUIRED_PUBLIC_FILES = {
+    "README.md",
+    "GOVERNANCE.md",
+    "SECURITY.md",
+    "docs/PUBLIC-SCOPE.md",
+}
 
 
 def fail(message: str) -> None:
@@ -13,26 +19,31 @@ def fail(message: str) -> None:
 
 
 def main() -> int:
+    missing = [name for name in sorted(REQUIRED_PUBLIC_FILES) if not (ROOT / name).is_file()]
+    if missing:
+        fail("missing public-scope files: " + ", ".join(missing))
+
     bad = []
-    for p in ROOT.rglob("*"):
-        if not p.is_file() or ".git" in p.parts:
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or ".git" in path.parts:
             continue
-        if p.name in FORBIDDEN_NAMES or p.suffix.lower() in FORBIDDEN_SUFFIXES:
-            bad.append(str(p.relative_to(ROOT)))
+        if path.name in FORBIDDEN_NAMES or path.suffix.lower() in FORBIDDEN_SUFFIXES:
+            bad.append(str(path.relative_to(ROOT)))
     if bad:
-        fail("forbidden private/secret artifact patterns: " + ", ".join(bad))
+        fail("forbidden secret/non-public artifact patterns: " + ", ".join(bad))
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8").lower()
     governance = (ROOT / "GOVERNANCE.md").read_text(encoding="utf-8").lower()
-    boundary = (ROOT / "docs/ADOPTION-BOUNDARY.md").read_text(encoding="utf-8").lower()
-    if "not alimango production governance" not in readme:
-        fail("README must deny production authority")
-    if "public" not in governance or "production" not in governance:
-        fail("GOVERNANCE.md missing authority boundary")
-    if "never automatically" not in boundary and "never be automatic" not in boundary:
-        fail("adoption boundary must reject automatic public-to-private promotion")
+    public_scope = (ROOT / "docs/PUBLIC-SCOPE.md").read_text(encoding="utf-8").lower()
 
-    print("PASS: public-lab privacy and authority boundary checks")
+    if "public goods" not in readme:
+        fail("README must describe the project as public goods")
+    if "public-goods boundary" not in governance:
+        fail("GOVERNANCE.md missing public-goods boundary")
+    if "self-contained public goods" not in public_scope:
+        fail("PUBLIC-SCOPE.md missing self-contained public scope")
+
+    print("PASS: public-scope and artifact hygiene checks")
     return 0
 
 
