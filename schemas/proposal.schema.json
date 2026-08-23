@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlimangoStudio/Alimango-ai-governance/schemas/proposal.schema.json",
+  "title": "Alimango Governance Lab Proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "title",
+    "status",
+    "failure_modes",
+    "control_classes",
+    "problem",
+    "control",
+    "enforcement_point",
+    "evidence",
+    "security",
+    "limitations",
+    "private_adoption"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "id": {"type": "string", "pattern": "^AGP-[0-9]{3,}$"},
+    "title": {"type": "string", "minLength": 8, "maxLength": 120},
+    "status": {
+      "type": "string",
+      "enum": ["draft", "review", "experimental", "retained", "rejected"]
+    },
+    "failure_modes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^AGF-[0-9]{3}$"}
+    },
+    "control_classes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "authority",
+          "capability",
+          "approval",
+          "boundary",
+          "context",
+          "action",
+          "evidence",
+          "review",
+          "lifecycle",
+          "observability",
+          "supply-chain"
+        ]
+      }
+    },
+    "problem": {"type": "string", "minLength": 20},
+    "control": {"type": "string", "minLength": 20},
+    "enforcement_point": {"type": "string", "minLength": 10},
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "description"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["test", "benchmark", "reproduction", "analysis", "none-yet"]
+        },
+        "description": {"type": "string", "minLength": 10}
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["permission_change", "side_effect_change", "data_boundary_change", "notes"],
+      "properties": {
+        "permission_change": {"type": "boolean"},
+        "side_effect_change": {"type": "boolean"},
+        "data_boundary_change": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 5}
+    },
+    "private_adoption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritative", "automatic_sync_allowed"],
+      "properties": {
+        "authoritative": {"const": false},
+        "automatic_sync_allowed": {"const": false}
+      }
+    }
+  }
+}
