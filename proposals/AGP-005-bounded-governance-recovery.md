@@ -1,7 +1,8 @@
 # AGP-005 — Bounded Governance Recovery
 
-**Status:** proposed  
-**Scope:** public-lab reference only
+- **Status:** accepted-for-lab
+- **Scope:** public reference proposal only
+- **Authority:** advisory; no AGP status implies production or private adoption
 
 ## Problem
 
@@ -100,6 +101,6 @@ A conforming reference should show that:
 13. triage approval requires current-state revalidation and governance rerun;
 14. recovery evidence avoids raw secrets/protected payloads.
 
-## Non-authority boundary
+## Public/private adoption boundary
 
-Acceptance, CI success, or merge of this AGP means only that the pattern is useful as a public-lab reference. It does not establish adoption by another repository, product, organization, or production environment.
+`accepted-for-lab` means this design is retained as a useful public reference. It creates **no claim** that any private or production system uses the same implementation, schema, names, tools, or policy. External adopters should re-evaluate the failure mode and implement the smallest control appropriate to their own authority model.
