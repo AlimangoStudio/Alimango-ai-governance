@@ -1,0 +1,30 @@
+name: Public lab bug
+about: Report a defect in this public repository's examples, docs, or checks
+labels: [bug]
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Provide the smallest public/synthetic reproduction possible.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: This report contains no secrets, private project data, or proprietary Alimango source.
+          required: true
