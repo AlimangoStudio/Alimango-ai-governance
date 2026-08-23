@@ -9,6 +9,7 @@ from pathlib import Path
 
 OPEN_BOX = re.compile(r"^- \[ \]", re.MULTILINE)
 SHORTCUT = re.compile(r"\b(?:TODO|FIXME|TBD|HACK|PLACEHOLDER)\b", re.IGNORECASE)
+BEST_EFFORT_UNVERIFIED_EXIT = 20
 
 
 def finding(kind: str, detail: str, severity: str) -> dict[str, str]:
@@ -66,7 +67,10 @@ def main() -> int:
         may_continue_output = True
     else:
         terminal = "best_effort_unverified"
-        exit_code = 0
+        # Non-zero by design: a shell/CI runner must not mistake unverified
+        # continuation for successful validation. An orchestrator may handle
+        # this explicit code and continue text/artifact output.
+        exit_code = BEST_EFFORT_UNVERIFIED_EXIT
         claim_green = False
         may_continue_output = True
 
@@ -77,6 +81,7 @@ def main() -> int:
         "claim_green": claim_green,
         "may_continue_output": may_continue_output,
         "merge_or_deploy_allowed": terminal == "complete",
+        "best_effort_unverified_exit_code": BEST_EFFORT_UNVERIFIED_EXIT,
         "hard_findings": hard_findings,
         "quality_findings": quality_findings,
         "findings": findings,
