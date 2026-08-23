@@ -9,6 +9,8 @@ import math
 import sys
 from pathlib import Path
 
+from governance_recovery import OMISSION_PLACEHOLDER, digest_text
+
 ROOT = Path(__file__).resolve().parents[1]
 AUTHORITY_PATH = ROOT / "control/source-authority.json"
 
@@ -24,6 +26,29 @@ def sha256_text(text: str) -> str:
 
 def estimate_tokens(text: str) -> int:
     return max(1, math.ceil(len(text) / 4))
+
+
+def omission_record(
+    *,
+    source_id: str,
+    source_class: str,
+    rel: Path,
+    reason: str,
+    content: str | None,
+    required_for_authorization: bool,
+    mandatory_authority: bool,
+) -> dict[str, object]:
+    return {
+        "id": source_id,
+        "authority": source_class,
+        "origin": rel.as_posix(),
+        "included": False,
+        "reason": reason,
+        "content_hash": digest_text(content) if content is not None else None,
+        "required_for_authorization": required_for_authorization,
+        "mandatory_authority": mandatory_authority,
+        "placeholder": OMISSION_PLACEHOLDER,
+    }
 
 
 def main() -> int:
@@ -46,7 +71,9 @@ def main() -> int:
         fail("request requires task, positive budget_tokens, and non-empty sources")
 
     ranks = {entry["class"]: int(entry["priority"]) for entry in authority["order"]}
-    prepared = []
+    prepared: list[dict[str, object]] = []
+    omissions: list[dict[str, object]] = []
+
     for raw in sources:
         if not isinstance(raw, dict):
             fail("each source must be an object")
@@ -54,18 +81,51 @@ def main() -> int:
         source_class = str(raw.get("authority", "external"))
         sensitivity = str(raw.get("sensitivity", "public"))
         rel = Path(str(raw.get("path", "")))
+        required = bool(raw.get("required", False))
+        required_for_authorization = bool(raw.get("required_for_authorization", False))
+        mandatory_authority = bool(raw.get("mandatory_authority", False)) or source_class == "constitution"
+        provenance_verified = raw.get("provenance_verified", True) is True
+
         if not source_id or source_class not in ranks or not str(rel):
             fail(f"invalid source record: {raw}")
+
+        # Public-scope hygiene is a hard gate, not an optional provenance omission.
         if sensitivity != "public":
             fail(f"public compiler refuses non-public source '{source_id}' ({sensitivity})")
+
         path = (ROOT / rel).resolve()
         try:
             path.relative_to(ROOT)
         except ValueError:
             fail(f"source escapes repository root: {rel}")
-        if not path.is_file():
-            fail(f"source file missing: {rel}")
-        text = path.read_text(encoding="utf-8")
+
+        text: str | None = None
+        if path.is_file():
+            try:
+                text = path.read_text(encoding="utf-8")
+            except OSError as exc:
+                if required or mandatory_authority or required_for_authorization:
+                    fail(f"required source unreadable: {rel}: {exc}")
+        elif required or mandatory_authority or required_for_authorization:
+            fail(f"required source file missing: {rel}")
+
+        if not provenance_verified or text is None:
+            reason = "PROVENANCE_VERIFICATION_FAILED" if not provenance_verified else "OPTIONAL_SOURCE_UNAVAILABLE"
+            if required or mandatory_authority:
+                fail(f"mandatory source provenance unavailable: {source_id}")
+            if required_for_authorization:
+                fail(f"authorization-critical source provenance unavailable: {source_id}")
+            omissions.append(omission_record(
+                source_id=source_id,
+                source_class=source_class,
+                rel=rel,
+                reason=reason,
+                content=text,
+                required_for_authorization=False,
+                mandatory_authority=False,
+            ))
+            continue
+
         prepared.append({
             "id": source_id,
             "authority": source_class,
@@ -75,43 +135,58 @@ def main() -> int:
             "freshness": raw.get("freshness", "current working revision"),
             "sensitivity": sensitivity,
             "reason": str(raw.get("reason", "task relevance")),
-            "required": bool(raw.get("required", False)),
+            "required": required or mandatory_authority,
+            "required_for_authorization": required_for_authorization,
             "rank": ranks[source_class],
             "estimated_tokens": estimate_tokens(text),
             "text": text,
         })
 
-    prepared.sort(key=lambda item: (not item["required"], -item["rank"], item["id"]))
-    required_tokens = sum(item["estimated_tokens"] for item in prepared if item["required"])
+    prepared.sort(key=lambda item: (not bool(item["required"]), -int(item["rank"]), str(item["id"])))
+    required_tokens = sum(int(item["estimated_tokens"]) for item in prepared if bool(item["required"]))
     if required_tokens > budget:
         fail(f"required authority sources exceed budget ({required_tokens} > {budget})")
 
-    selected = []
+    selected: list[dict[str, object]] = []
     used = 0
     for item in prepared:
-        if item["required"] or used + item["estimated_tokens"] <= budget:
+        item_tokens = int(item["estimated_tokens"])
+        if bool(item["required"]) or used + item_tokens <= budget:
             selected.append(item)
-            used += item["estimated_tokens"]
+            used += item_tokens
 
     if not any(item["authority"] == "constitution" for item in selected):
-        fail("compiled context must include a constitution source")
+        fail("compiled context must include a verified constitution source")
 
-    context_parts = []
-    manifest_sources = []
+    context_parts: list[str] = []
+    manifest_sources: list[dict[str, object]] = []
     for item in selected:
-        context_parts.append(f"## SOURCE {item['id']} [{item['authority']}]\n\n{item['text'].rstrip()}\n")
-        manifest_sources.append({k: item[k] for k in (
-            "id", "authority", "origin", "content_hash", "freshness", "sensitivity", "reason", "estimated_tokens"
-        )})
+        context_parts.append(f"## SOURCE {item['id']} [{item['authority']}]\n\n{str(item['text']).rstrip()}\n")
+        manifest_sources.append({
+            key: item[key]
+            for key in (
+                "id", "authority", "origin", "content_hash", "freshness", "sensitivity",
+                "reason", "estimated_tokens", "required_for_authorization"
+            )
+        })
+
+    for omitted in omissions:
+        context_parts.append(f"## SOURCE {omitted['id']} [omitted]\n\n{OMISSION_PLACEHOLDER}\n")
 
     payload = {
-        "status": "compiled",
+        "status": "compiled_with_omissions" if omissions else "compiled",
         "task": task,
         "budget_tokens": budget,
         "estimated_tokens": used,
         "selected_source_count": len(selected),
+        "omitted_source_count": len(omissions),
         "skipped_source_count": len(prepared) - len(selected),
-        "manifest": {"task": task, "budget": {"tokens": budget}, "sources": manifest_sources},
+        "manifest": {
+            "task": task,
+            "budget": {"tokens": budget},
+            "sources": manifest_sources,
+            "omissions": omissions,
+        },
         "context": "\n".join(context_parts),
     }
     rendered = json.dumps(payload, indent=2, sort_keys=True) + "\n"
