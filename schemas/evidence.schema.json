@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Governance Evidence Record",
+  "type": "object",
+  "required": ["requirement", "kind", "result", "revision", "reference"],
+  "properties": {
+    "requirement": {"type": "string"},
+    "kind": {"enum": ["test", "static_check", "schema", "review", "browser", "live", "postcondition", "manual"]},
+    "result": {"enum": ["pass", "fail", "open", "skipped"]},
+    "revision": {"type": "string"},
+    "reference": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}

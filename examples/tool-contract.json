@@ -1,0 +1,15 @@
+{
+  "id": "repo.write_text_file",
+  "version": "1.0",
+  "purpose": "Write one UTF-8 text file inside an approved repository path",
+  "capabilities": ["repo_write"],
+  "side_effects": ["repository content changes"],
+  "inputs": {"path": "string", "content": "string"},
+  "outputs": {"commit": "string"},
+  "preconditions": ["target repository is in task scope", "path is not secret-bearing", "write is permitted by current task"],
+  "postconditions": ["commit exists", "changed path matches approved target"],
+  "network_destinations": ["github.com"],
+  "data_classes": ["public"],
+  "idempotent": false,
+  "evidence": ["commit sha", "changed-file list"]
+}

@@ -1,0 +1,8 @@
+{
+  "task": "review a proposed capability control",
+  "budget": {"tokens": 6000},
+  "sources": [
+    {"id": "constitution", "authority": "constitution", "origin": ".specify/memory/constitution.md", "content_hash": "example-sha256", "freshness": "current commit", "sensitivity": "public", "reason": "mandatory authority"},
+    {"id": "proposal", "authority": "external", "origin": "proposals/AGP-example.md", "content_hash": "example-sha256-2", "freshness": "current commit", "sensitivity": "public", "reason": "subject of review"}
+  ]
+}

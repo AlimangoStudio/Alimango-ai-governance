@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Independent Review Verdict",
+  "type": "object",
+  "required": ["reviewer_scope", "verdict", "findings"],
+  "properties": {
+    "reviewer_scope": {"type": "array", "items": {"type": "string"}},
+    "verdict": {"enum": ["accept", "changes_required", "blocked"]},
+    "findings": {"type": "array", "items": {"type": "object", "required": ["severity", "title", "evidence", "disposition"], "properties": {"severity": {"enum": ["info", "low", "medium", "high", "critical"]}, "title": {"type": "string"}, "evidence": {"type": "string"}, "disposition": {"enum": ["open", "fixed", "accepted_risk", "not_applicable"]}}}}
+  }
+}

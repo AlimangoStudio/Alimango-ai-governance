@@ -1,0 +1,7 @@
+{
+  "reviewer_scope": ["capability", "failure-path", "public/private boundary"],
+  "verdict": "changes_required",
+  "findings": [
+    {"severity": "high", "title": "Network destination not constrained", "evidence": "tool contract permits network_read without destination allowlist", "disposition": "open"}
+  ]
+}

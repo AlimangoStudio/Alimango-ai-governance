@@ -1,0 +1,31 @@
+name: Agent failure case
+description: Submit a reproducible agent-governance failure for testing and research
+title: "[failure-mode] "
+labels: ["failure-mode"]
+body:
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario
+      description: Describe the smallest synthetic scenario that reproduces the failure.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected governed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Observed or plausible unsafe behavior
+    validations:
+      required: true
+  - type: textarea
+    id: test
+    attributes:
+      label: Reproduction / test fixture
+      description: Keep it public-safe and non-destructive.
+    validations:
+      required: true

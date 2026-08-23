@@ -1,0 +1,10 @@
+{
+  "action": "update public governance documentation",
+  "target": "AlimangoStudio/Alimango-ai-governance",
+  "risk": "R1",
+  "capabilities": ["repo_write"],
+  "decision": "allow_with_evidence",
+  "reason": "repository-local, reversible, within explicit task scope",
+  "approval_reference": null,
+  "required_evidence": ["changed-file list", "validator pass", "CI result"]
+}

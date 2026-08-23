@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlimangoStudio/Alimango-ai-governance/schemas/tool-contract.schema.json",
+  "title": "Agent Tool Contract",
+  "type": "object",
+  "required": ["id", "version", "purpose", "capabilities", "side_effects", "inputs", "outputs", "preconditions", "postconditions"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "capabilities": {"type": "array", "items": {"enum": ["read", "repo_write", "network_read", "external_write", "secret_read", "identity", "migration", "deploy", "financial", "destructive"]}, "uniqueItems": true},
+    "side_effects": {"type": "array", "items": {"type": "string"}},
+    "inputs": {"type": "object"},
+    "outputs": {"type": "object"},
+    "preconditions": {"type": "array", "items": {"type": "string"}},
+    "postconditions": {"type": "array", "items": {"type": "string"}},
+    "network_destinations": {"type": "array", "items": {"type": "string"}},
+    "data_classes": {"type": "array", "items": {"type": "string"}},
+    "idempotent": {"type": "boolean"},
+    "evidence": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent Governance Event",
+  "type": "object",
+  "required": ["run_id", "event", "timestamp"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "event": {"enum": ["governance_loaded", "task_routed", "capability_decision", "context_compiled", "tool_started", "tool_finished", "evidence_recorded", "review_completed", "unlazy_completed", "convergence_completed", "cancelled", "terminal_state"]},
+    "timestamp": {"type": "string"},
+    "tool_id": {"type": ["string", "null"]},
+    "latency_ms": {"type": ["integer", "null"], "minimum": 0},
+    "retry": {"type": ["integer", "null"], "minimum": 0},
+    "terminal_state": {"enum": ["complete", "blocked", "partial", "cancelled", "needs_changes", null]},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}}
+  }
+}

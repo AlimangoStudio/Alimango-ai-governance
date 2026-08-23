@@ -1,4 +1,4 @@
-name: Public contribution hygiene
+name: Governance reference validation
 
 on:
   pull_request:
@@ -9,12 +9,32 @@ permissions:
   contents: read
 
 jobs:
-  hygiene:
+  governance:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Reject obvious secret and private-file patterns
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate public/private boundary
+        run: python scripts/validate_public_lab.py
+      - name: Validate agent control harness
+        run: python scripts/validate_agent_controls.py
+      - name: Python syntax
+        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py
+      - name: JSON parse
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          files=list(Path('schemas').glob('*.json'))+list(Path('examples').glob('*.json'))+[Path('.agents/manifest.json')]
+          for path in files:
+              json.loads(path.read_text(encoding='utf-8'))
+          print(f'PASS: parsed {len(files)} JSON files')
+          PY
+      - name: Reject obvious secret/private-file patterns
         shell: bash
         run: |
           set -euo pipefail
@@ -24,10 +44,5 @@ jobs:
             echo 'Forbidden secret/private artifact pattern found.' >&2
             exit 1
           fi
-      - name: Verify public/private authority notice
-        shell: bash
-        run: |
-          grep -qi 'not.*production governance\|not.*governance source' README.md
-          grep -qi 'never automatically' docs/ADOPTION-BOUNDARY.md
       - name: Whitespace check
         run: git diff --check

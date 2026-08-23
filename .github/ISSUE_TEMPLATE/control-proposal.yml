@@ -1,0 +1,40 @@
+name: Agent control proposal
+description: Propose an enforceable control for a concrete agent failure mode
+title: "[control] "
+labels: ["governance"]
+body:
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure mode
+      description: What can the agent do wrong today? Include a reproducible example if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: control
+    attributes:
+      label: Proposed control
+      description: Prefer a capability boundary, schema, validator, workflow, test, or service boundary over prose alone.
+    validations:
+      required: true
+  - type: textarea
+    id: bypass
+    attributes:
+      label: Bypass / negative cases
+      description: How could the proposed control fail or be circumvented?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence plan
+      description: What would prove the control works and does not weaken another control?
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundary
+    attributes:
+      label: Public-safe boundary
+      options:
+        - label: I confirm this contains no secrets, private Alimango source, customer data, or automatic public-to-private promotion path.
+          required: true

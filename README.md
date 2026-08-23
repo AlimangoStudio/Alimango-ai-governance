@@ -2,122 +2,160 @@
 
 # 🥭 Alimango AI Governance Lab
 
-### Public ideas → hard review → private adoption
+### Open reference control plane for governed AI-agent engineering
 
-[![Public Lab](https://img.shields.io/badge/status-public%20lab-0969da?style=for-the-badge)](https://github.com/AlimangoStudio/Alimango-ai-governance)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-2da44e?style=for-the-badge)](CONTRIBUTING.md)
-[![Production Authority](https://img.shields.io/badge/production%20authority-NO-d1242f?style=for-the-badge)](docs/ADOPTION-BOUNDARY.md)
-[![Fail Closed](https://img.shields.io/badge/design-fail--closed-8250df?style=for-the-badge)](docs/REVIEW-PLAYBOOK.md)
+[![Public Lab](https://img.shields.io/badge/status-public%20R%26D-0969da?style=for-the-badge)](docs/ADOPTION-BOUNDARY.md)
+[![Agent Controls](https://img.shields.io/badge/agent%20controls-spec%20%7C%20capability%20%7C%20evidence-8250df?style=for-the-badge)](.agents/README.md)
+[![CI](https://img.shields.io/github/actions/workflow/status/AlimangoStudio/Alimango-ai-governance/public-hygiene.yml?branch=main&style=for-the-badge&label=governance%20CI)](.github/workflows/public-hygiene.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-2da44e?style=for-the-badge)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-1f883d?style=for-the-badge)](CONTRIBUTING.md)
 
-**An open R&D surface for making AI engineering governance harder to fool, easier to verify, and cheaper to operate.**
+**Spec-driven engineering · fail-closed actions · capability control · bounded context · evidence gates · adversarial review · Unlazy · convergence**
+
+This repository publishes a complete, public-safe reference implementation of the control ideas used to govern AI coding and engineering agents.
 
 </div>
 
 ---
 
-Alimango uses a hard two-repository model:
+> [!IMPORTANT]
+> **This repository is not Alimango production governance.** It is a public research, reference, and contribution surface. Production Alimango projects do not consume it as authority or as a runtime fallback. Useful ideas are independently re-derived and validated in the private governance system before any production adoption.
 
-```text
-                    OPEN SIDE
+## Why this exists
 
-      issue ─ discussion ─ experiment ─ PR
-                    │
-                    ▼
-          ┌─────────────────────┐
-          │  THIS PUBLIC LAB    │
-          │  ideas + evidence   │
-          └──────────┬──────────┘
-                     │
-              useful?│
-            ┌────────┴────────┐
-            │                 │
-          no│                 │yes
-            ▼                 ▼
-        close/reject     independent review
-                              │
-                              ▼
-                    re-derive, don't mirror
-                              │
-                              ▼
-                    ┌───────────────────┐
-                    │ PRIVATE GOVERNANCE│
-                    │ canonical control │
-                    └─────────┬─────────┘
-                              │ pinned + fail-closed
-                              ▼
-                         webapps/apps
+AI agents are useful precisely because they can act. That also means quality cannot depend on a model remembering a long prompt or sounding confident. The control plane needs explicit authority, permissions, context provenance, executable evidence, independent challenge, and terminal-state discipline.
 
-                  PRODUCTION SIDE
+This lab makes those controls inspectable and improvable in public.
+
+## Control plane
+
+```mermaid
+flowchart TD
+    A[Task / Request] --> B[Authority Resolution]
+    B --> C[Task Router + Risk Classification]
+    C --> D[Spec Kit Contract]
+    D --> E[Capability Decision]
+    E --> F[Bounded Context Compile]
+    F --> G[Agent Execution]
+    G --> H[Validation + Evidence]
+    H --> I[Independent Review]
+    I --> J[Unlazy]
+    J --> K[Convergence]
+    K --> L{Terminal State}
+    L -->|all gates pass| M[Complete]
+    L -->|required gate open| N[Blocked / Partial / Needs Changes]
 ```
 
+The model is intentionally **not** the policy engine. Models propose actions. Governance decides whether those actions are authorized and whether the evidence is sufficient.
 
-How the PAPPS governing harness works
+## What is included
 
-The governing harness is the control system around development. It does not replace coding; it controls how work is planned, implemented, reviewed, tested, and declared complete.
+| Control family | Reference implementation |
+| --- | --- |
+| **Constitution / authority** | `.specify/memory/constitution.md`, `AGENTS.md`, `GOVERNANCE.md` |
+| **Spec Kit** | `.specify/templates/`, `.agents/workflows/spec-kit.md` |
+| **Task routing** | `.agents/skills/task-router/` |
+| **Action governance** | capability classes, risk levels, allow/approval/deny decisions |
+| **Tool contracts** | machine-readable schemas for scope, side effects, auth, pre/postconditions |
+| **Context governance** | authority-aware RAG/CAG concepts, provenance, freshness, sensitivity, budgets |
+| **Supply-chain controls** | source/ref/license/install/network/permission review |
+| **Done-When / Proof** | acceptance gates defined before implementation |
+| **Independent review** | read-only adversarial challenge with structured verdicts |
+| **Unlazy** | final anti-shortcut completion gate |
+| **Convergence** | reconciliation of spec, tasks, gates, evidence, review, and reality |
+| **Lifecycle / cancellation** | explicit states and terminal outcomes |
+| **Telemetry** | structured action, evidence, timing, and terminal-state events |
+| **Testing / performance / UI** | reusable quality policies with risk-proportional evidence |
 
-Constitution — the highest authority
-The Constitution defines the non-negotiable engineering rules: protect golden paths, preserve tenant isolation, fail closed, avoid destructive shortcuts, validate real behavior, keep deployment safe, and never call work “done” without evidence. Specs, agents, and implementation decisions must conform to it.
-Spec Kit — defines exactly what is being built
-Before a meaningful behavior change, the work gets a numbered spec with the required artifacts such as spec.md, plan.md, tasks.md, research/decisions where needed, and gate evidence. It establishes scope, acceptance criteria, blast radius, risks, migration/deployment requirements, and tests. This prevents an agent from improvising a solution without a contract.
-
-Governing harness — controls execution
-The .agents/ system routes the task, loads only the relevant context, applies engineering/security/performance policies, and determines the required Done-When gates. The normal flow is roughly:
-
-Task → context → Spec Kit → blast-radius analysis → implementation → tests → security/tenancy/performance checks → browser/E2E where applicable → audit/review → convergence → Unlazy → commit/merge → safe deployment → live verification.
-
-Different risk levels automatically require stronger evidence. Finance, clinical data, authentication, tenancy, integrations, migrations, and production infrastructure receive stricter treatment.
-
-Audit/reviewer layer — challenges the implementation
-The implementation is not trusted merely because the coding agent says it works. The audit system checks requirements, correctness, regressions, tenant isolation, security boundaries, financial/data integrity, concurrency, migrations, integrations, UI, and deployment. High-risk work ideally receives genuinely independent reviewer contexts.
-Unlazy — the final anti-shortcut gate
-Unlazy asks, effectively: “Is this actually finished, or did we stop when the code looked plausible?” It looks for unchecked tasks, TODOs, skipped validation, placeholder implementations, untested failure paths, missing browser/live proof, undocumented assumptions, stale evidence, and incomplete handoffs. A feature can compile and have passing unit tests and still fail Unlazy.
-Convergence — reconcile everything before completion
-Findings from implementation, tests, audits, browser QA, security review, and Unlazy are reconciled back against the spec. Open issues must either be fixed or explicitly recorded as remaining gates. The harness prevents contradictory states such as tasks.md saying complete while GATES.md still contains a blocker.
-
-See [`docs/ADOPTION-BOUNDARY.md`](docs/ADOPTION-BOUNDARY.md) for the hard boundary.
-
-## How to contribute
-
-**Early idea?** Start a Discussion.  
-**Concrete problem?** Open a Governance Improvement issue.  
-**Reviewable solution or experiment?** Open a focused PR.
-
-Before contributing, read:
-
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution and review standard
-- [`SECURITY.md`](SECURITY.md) — vulnerability and sensitive-data rules
-- [`docs/REVIEW-PLAYBOOK.md`](docs/REVIEW-PLAYBOOK.md) — how proposals are evaluated
-- [`proposals/PROPOSAL-TEMPLATE.md`](proposals/PROPOSAL-TEMPLATE.md) — proposal structure
-- [`docs/WHY-TWO-REPOS.md`](docs/WHY-TWO-REPOS.md) — architecture rationale
-
-## Repository map
+## Repository architecture
 
 ```text
-.github/       contribution templates + hygiene checks
-proposals/     versioned governance proposals
-examples/      synthetic, public-safe experiments
-docs/          trust boundary + review model + contributor guides
+AGENTS.md                     repo-local agent entry point
+GOVERNANCE.md                 public-lab authority boundary
+.specify/
+  memory/constitution.md      highest repo-local authority
+  templates/                  Spec Kit contracts
+.agents/
+  manifest.json               machine-readable control registry
+  policies/                   standing constraints
+  workflows/                  execution state machines
+  skills/                     reusable agent methods
+schemas/                      typed control/evidence contracts
+examples/                     synthetic public-safe examples
+docs/                         architecture, threats, controls, review model
+scripts/                      deterministic validators
+proposals/                    community governance proposals
+.github/                      contribution templates + CI
 ```
 
-## For maintainers
-
-The default posture is simple:
+## The operating model
 
 ```text
-interesting ≠ correct
-merged here ≠ adopted privately
-public evidence ≠ production authority
-available tool ≠ authorized action
+public idea / issue / PR
+        │
+        ▼
+public experiment + skeptical review
+        │
+        ├── weak / unsafe / redundant ──► reject or close
+        │
+        └── useful ──► retain as public reference
+                           │
+                           ▼
+                  independent private re-derivation
+                           │
+                           ▼
+                  private tests + audit + versioning
+                           │
+                           ▼
+                    possible production adoption
 ```
 
-Keep the lab open. Keep the production trust boundary hard.
+A merge here means **useful enough to retain publicly**. It does not mean adopted as Alimango production governance.
+
+## Design principles
+
+We prefer controls that are difficult to hand-wave around:
+
+```text
+executable proof
+  > deterministic validator
+    > typed contract / schema
+      > capability boundary
+        > reviewable workflow
+          > prose reminder
+```
+
+Strong contributions usually identify a concrete failure mode, propose the smallest enforceable control, include negative-path evidence, state capability/context costs, and document bypasses or limitations.
+
+## Quick start
+
+Read [`AGENTS.md`](AGENTS.md) to understand how agents are governed in this repo, then [`docs/AGENT-CONTROL-PLANE.md`](docs/AGENT-CONTROL-PLANE.md) for the architecture. For a concrete change, use the Spec Kit templates under [`.specify/templates/`](.specify/templates/) and follow [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+Useful starting points:
+
+- [`docs/SPEC-KIT.md`](docs/SPEC-KIT.md)
+- [`docs/UNLAZY.md`](docs/UNLAZY.md)
+- [`docs/THREAT-MODEL.md`](docs/THREAT-MODEL.md)
+- [`docs/CONTROL-MATRIX.md`](docs/CONTROL-MATRIX.md)
+- [`docs/TOOL-CONTRACTS.md`](docs/TOOL-CONTRACTS.md)
+- [`docs/CONTEXT-ENGINEERING.md`](docs/CONTEXT-ENGINEERING.md)
+- [`docs/INDEPENDENT-REVIEW.md`](docs/INDEPENDENT-REVIEW.md)
+- [`docs/FAILURE-MODE-CATALOG.md`](docs/FAILURE-MODE-CATALOG.md)
+
+## What we want contributions on
+
+Agent permissions and approvals; prompt/tool injection defenses; context selection and cache invalidation; code-graph/RAG/CAG controls; deterministic validators; agent lifecycle/cancellation; independent reviewer methods; supply-chain verification; provenance; typed tool interfaces; test/evidence quality; token/latency budgets; and new reproducible failure cases.
+
+## Contribution boundary
+
+Never submit credentials, keys, private Alimango code, customer/tenant/patient data, proprietary project internals, or a mechanism that automatically promotes public content into private production governance. See [`docs/ADOPTION-BOUNDARY.md`](docs/ADOPTION-BOUNDARY.md) and [`SECURITY.md`](SECURITY.md).
 
 ---
 
 <div align="center">
 
-### Build governance that can survive skeptical review.
+### Build agent governance that survives skeptical review.
 
-**Open ideas. Explicit evidence. Private authority.**
+**Open controls. Explicit evidence. Private production authority.**
 
 </div>

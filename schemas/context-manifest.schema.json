@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Compiled Context Manifest",
+  "type": "object",
+  "required": ["task", "budget", "sources"],
+  "properties": {
+    "task": {"type": "string"},
+    "budget": {"type": "object", "properties": {"tokens": {"type": "integer", "minimum": 1}}},
+    "sources": {"type": "array", "items": {"type": "object", "required": ["id", "authority", "origin", "content_hash", "sensitivity", "reason"], "properties": {"id": {"type": "string"}, "authority": {"enum": ["constitution", "policy", "governance", "spec", "task", "external"]}, "origin": {"type": "string"}, "content_hash": {"type": "string"}, "freshness": {"type": ["string", "null"]}, "sensitivity": {"enum": ["public", "internal", "restricted"]}, "reason": {"type": "string"}}}}
+  }
+}

@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If this governance reference helps your work, cite the repository and link the control or proposal you used."
+title: "Alimango AI Governance Lab"
+type: software
+authors:
+  - name: "Alimango Studio"
+repository-code: "https://github.com/AlimangoStudio/Alimango-ai-governance"
+license: Apache-2.0
+version: "1.0-reference"
+date-released: "2026-08-23"
