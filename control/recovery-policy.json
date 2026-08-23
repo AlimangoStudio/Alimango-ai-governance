@@ -3,9 +3,15 @@
   "scope": "public-goods-reference",
   "failure_classes": {
     "policy_denial": {
-      "exit_codes": [10, 11, 12, 13],
+      "exit_codes": [10, 12, 13],
       "retry": false,
       "side_effect_allowed": false
+    },
+    "approval_required": {
+      "exit_codes": [11],
+      "retry": false,
+      "side_effect_allowed": false,
+      "terminal": "human_triage"
     },
     "transient_infrastructure": {
       "exit_codes": [70, 71, 72, 75],
@@ -27,6 +33,8 @@
   },
   "quality_correction": {
     "max_attempts": 3,
+    "eligible_gates": ["unlazy", "formatting", "documentation", "optimization"],
+    "unknown_gate_classification": "hard",
     "exhausted_status": "BEST_EFFORT_UNVERIFIED",
     "continue_text_output": true,
     "claim_green": false,
