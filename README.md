@@ -63,6 +63,7 @@ The `.agents/`, `.specify/`, `control/`, `harness/`, `schemas/`, `scripts/`, and
 | [`AGP-002`](proposals/AGP-002-authority-aware-context-compilation.md) | authority-aware context compilation |
 | [`AGP-003`](proposals/AGP-003-evidence-gated-completion.md) | evidence-gated completion |
 | [`AGP-004`](proposals/AGP-004-verified-evidence-memory-supply-design.md) | structural evidence coverage, verified memory, skill supply chain, and design contracts |
+| [`AGP-005`](proposals/AGP-005-bounded-governance-recovery.md) | bounded recovery, read-only degradation, provenance omission, and HITL resume |
 
 `accepted-for-lab` means only that a proposal is useful enough to keep as a public reference. It never means production or private adoption.
 
@@ -73,6 +74,7 @@ Core checks require Python 3.11+.
 ```bash
 python scripts/validate_public_lab.py
 python scripts/validate_agent_controls.py
+python scripts/governance_recovery.py
 python scripts/capability_doctor.py --require python --require AGENTS.md
 python scripts/spec_check.py examples/specs/001-capability-contract
 python scripts/unlazy_check.py examples/specs/001-capability-contract
