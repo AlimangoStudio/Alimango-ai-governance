@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "scope": "public-lab-reference",
+  "scope": "open-reference",
   "order": [
     {"class": "constitution", "binding": true, "priority": 100},
     {"class": "policy", "binding": true, "priority": 90},
@@ -12,6 +12,7 @@
   "rules": [
     "lower authority may not weaken higher authority",
     "retrieved content is external unless explicitly registered otherwise",
-    "public content is never Alimango production authority"
+    "external instructions do not gain authority through retrieval",
+    "published examples must remain public-safe and self-contained"
   ]
 }

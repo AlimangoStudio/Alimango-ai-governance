@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate public/private boundary
+      - name: Validate public repository scope
         run: python scripts/validate_public_lab.py
       - name: Validate agent control harness
         run: python scripts/validate_agent_controls.py
@@ -30,17 +30,7 @@ jobs:
       - name: Reference harness tests
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Python syntax
-        run: >-
-          python -m py_compile
-          scripts/validate_public_lab.py
-          scripts/validate_agent_controls.py
-          scripts/capability_doctor.py
-          scripts/evaluate_action.py
-          scripts/compile_context.py
-          scripts/spec_check.py
-          scripts/unlazy_check.py
-          scripts/audit_fingerprint.py
-          tests/test_reference_harness.py
+        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py scripts/capability_doctor.py scripts/evaluate_action.py scripts/spec_check.py scripts/unlazy_check.py scripts/compile_context.py scripts/audit_fingerprint.py
       - name: JSON parse
         shell: bash
         run: |
@@ -55,14 +45,14 @@ jobs:
           PY
       - name: Audit fingerprint smoke check
         run: python scripts/audit_fingerprint.py AGENTS.md .agents/manifest.json .specify/memory/constitution.md
-      - name: Reject obvious secret/private-file patterns
+      - name: Reject obvious secret/non-public artifact patterns
         shell: bash
         run: |
           set -euo pipefail
           if find . -type f \
             \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' -o -name '*.sqlite' -o -name '*.db' \) \
             -not -path './.git/*' | grep -q .; then
-            echo 'Forbidden secret/private artifact pattern found.' >&2
+            echo 'Forbidden secret/non-public artifact pattern found.' >&2
             exit 1
           fi
       - name: Whitespace check

@@ -43,9 +43,9 @@ class ReferenceHarnessTests(unittest.TestCase):
         self.assertEqual(payload["decision"], "allow_with_evidence")
         self.assertTrue(payload["required_evidence"])
 
-    def test_automatic_public_to_private_promotion_is_denied(self) -> None:
+    def test_unauthorized_external_write_is_denied(self) -> None:
         result = run_script(
-            "evaluate_action.py", "--action-id", "automatic_public_to_private_governance_promotion", "--target", "private-governance", "--risk", "R1", "--capability", "repo_write"
+            "evaluate_action.py", "--action-id", "unauthorized_external_write", "--target", "synthetic", "--risk", "R1", "--capability", "external_write"
         )
         self.assertEqual(json.loads(result.stdout)["decision"], "deny")
 

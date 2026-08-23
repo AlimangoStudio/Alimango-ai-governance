@@ -1,15 +1,14 @@
 schema_version: 1
 project: example-project
 governance:
-  public_reference_authority: false
   required_mode: fail-closed
 project_truth:
   golden_paths:
     - describe critical behavior that must not regress
   security_boundaries:
-    - describe auth, tenancy, data, or integration boundaries
+    - describe auth, isolation, data, or integration boundaries
   performance_targets:
-    - describe device/server/latency constraints
+    - describe device, server, throughput, or latency constraints
 validation:
   required:
     - focused regression tests

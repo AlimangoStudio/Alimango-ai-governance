@@ -1,17 +1,19 @@
-# Reference Consumer Model
+# Reference Adoption Model
 
-Teams using a centralized governance repository should separate reusable governance from project truth.
+The control plane is designed to be portable. A project adopting the reference can separate reusable governance from project-specific truth:
 
 ```text
-private organization governance (pinned revision)
-              ↓
+pinned governance revision
+          ↓
 project overlay / golden paths / data boundaries
-              ↓
+          ↓
 current spec
-              ↓
+          ↓
 current task
 ```
 
-A consumer lock records an immutable governance revision. A bootstrap verifies the expected source/revision and fails closed if unavailable. Project-specific constraints remain local. Public research repositories are not fallback authority.
+A revision lock records the exact governance version or commit used. A bootstrap verifies the expected source and revision before governed execution. Project-specific constraints remain local to the adopting project.
 
-The templates under `templates/consumer/` are illustrative and deliberately point to a hypothetical private governance repository, never this public lab.
+The examples under `templates/consumer/` use placeholders only. Replace them with values appropriate to your own environment and keep confidential implementation details out of public contributions.
+
+This is an integration pattern, not a requirement. Forking, vendoring, packaging, or selectively adapting controls are also valid when provenance and authority remain explicit.

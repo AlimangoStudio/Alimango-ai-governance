@@ -1,6 +1,6 @@
 # AGP-001: Capability-Gated Tool Execution
 
-**Status:** accepted-for-lab  
+**Status:** accepted-for-reference  
 **Control family:** capability / action governance
 
 ## Failure mode
@@ -27,7 +27,7 @@ The policy result is one of:
 
 `allow` · `allow_with_evidence` · `require_approval` · `deny`.
 
-A tool call may execute only after the corresponding decision permits the exact action/target. Approval for one target does not authorize adjacent targets or future retries with changed scope.
+A tool call may execute only after the corresponding decision permits the exact action and target. Approval for one target does not authorize adjacent targets or future retries with changed scope.
 
 ## Why capability classes
 
@@ -49,19 +49,19 @@ Mitigations include narrow service-mediated tools, typed contracts, immutable de
 
 ## Evidence
 
-The public reference includes:
+The reference includes:
 
 - `control/action-policy.json`
 - `schemas/action-decision.schema.json`
 - `schemas/tool-contract.schema.json`
 - `scripts/evaluate_action.py`
 - `examples/action-decision.json`
-- negative tests for R4 approval and prohibited public-to-private promotion
+- negative tests for R4 approval and unauthorized external writes
 
 ## Cost / trade-offs
 
 Capability checks add implementation and logging overhead. Overly coarse classes create false blocks; overly granular classes make policy difficult to maintain. The reference therefore keeps a small set of impact-oriented classes and allows tools to add narrower target constraints.
 
-## Public/private boundary
+## Portability
 
-This AGP is a public reference design. Its acceptance does not grant production authority or define private Alimango policy. Any private implementation is independently reviewed and may use a different enforcement mechanism.
+This AGP defines a control pattern, not a specific deployment architecture. Adopters may use different enforcement mechanisms as long as tool availability remains separate from authorization and the resulting decisions are scoped, reviewable, and evidenced.

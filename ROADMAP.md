@@ -1,9 +1,9 @@
-# Public Governance Lab Roadmap
+# Governance Lab Roadmap
 
 ## v1 — Reference control plane
 
-- [x] explicit public/private authority boundary
-- [x] public-lab constitution and agent entry point
+- [x] public-scope and repository-authority rules
+- [x] constitution and agent entry point
 - [x] Spec Kit templates and workflow
 - [x] action/capability governance
 - [x] bounded context / RAG-CAG governance
@@ -34,4 +34,4 @@
 - governance cost/latency budgets
 - formalized control upgrade manifests
 
-The roadmap evolves the public reference system only; it does not mirror private production governance.
+The roadmap covers only the open reference project and its public artifacts.

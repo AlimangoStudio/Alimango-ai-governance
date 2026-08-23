@@ -1,13 +1,13 @@
-# Example Consumer Agent Entry
+# Example Adopter Agent Entry
 
-This is a **reference template** for teams designing their own private governance consumer. Do not point production systems at this public repository as authority.
+This is a portable reference template for teams adopting a governance control plane.
 
-1. Resolve the consumer's private/pinned governance revision.
-2. Fail closed if it cannot be verified.
+1. Resolve the pinned governance revision.
+2. Verify source and revision before governed execution.
 3. Load the project-specific governance overlay.
-4. Load the current spec/task.
+4. Load the current spec and task.
 5. Inspect current repository state.
-6. Execute required capability/context/evidence/review workflows.
-7. Report exact terminal state.
+6. Execute required capability, context, evidence, and review workflows.
+7. Report the exact terminal state.
 
-Public Alimango Governance Lab material may be consulted as advisory research only.
+Replace placeholders with values appropriate to your project. Keep secrets, personal/customer data, confidential source, and non-public topology out of public artifacts.

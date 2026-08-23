@@ -37,8 +37,8 @@ def main() -> int:
         fail("missing agent-control files: " + ", ".join(missing))
 
     manifest = json.loads((ROOT / ".agents/manifest.json").read_text(encoding="utf-8"))
-    if manifest.get("production_authority") is not False:
-        fail("public control manifest must explicitly deny production authority")
+    if manifest.get("scope") != "public-goods-reference":
+        fail("control manifest must declare public-goods-reference scope")
 
     required_workflows = {"spec-kit", "action-governance", "context-compile", "independent-review", "unlazy", "convergence"}
     if not required_workflows.issubset(set(manifest.get("required_workflows", []))):
@@ -54,22 +54,22 @@ def main() -> int:
     action = json.loads((ROOT / "control/action-policy.json").read_text(encoding="utf-8"))
     if action["risk"]["R4"]["default_decision"] != "require_approval":
         fail("R4 actions must require approval in reference policy")
-    if "automatic_public_to_private_governance_promotion" not in action.get("always_deny_in_public_lab", []):
-        fail("public-to-private automatic promotion must remain denied")
+    if "unauthorized_external_write" not in action.get("always_deny_in_public_lab", []):
+        fail("unauthorized external writes must remain denied")
 
     constitution = (ROOT / ".specify/memory/constitution.md").read_text(encoding="utf-8").lower()
-    for marker in ("fail closed", "least capability", "spec-driven", "independent challenge", "no overclaiming"):
+    for marker in ("fail closed", "least capability", "spec-driven", "independent challenge", "public-goods hygiene", "no overclaiming"):
         if marker not in constitution:
             fail(f"constitution missing invariant: {marker}")
 
     agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8").lower()
-    if "not alimango production governance" not in agents:
-        fail("AGENTS.md must preserve public/private authority boundary")
     if "tool availability is not authorization" not in agents:
         fail("AGENTS.md must preserve tool-authorization invariant")
+    if "non-public project names" not in agents:
+        fail("AGENTS.md must preserve public-scope confidentiality invariant")
 
     print(f"PASS: {len(REQUIRED)} mandatory agent-control surfaces present")
-    print("PASS: machine-readable policies/schemas parse and authority/action invariants hold")
+    print("PASS: machine-readable policies/schemas parse and authority/action/public-scope invariants hold")
     return 0
 
 
