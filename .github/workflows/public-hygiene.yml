@@ -21,6 +21,8 @@ jobs:
         run: python scripts/validate_public_lab.py
       - name: Validate agent control harness
         run: python scripts/validate_agent_controls.py
+      - name: Bounded recovery self-check
+        run: python scripts/governance_recovery.py
       - name: Capability doctor self-check
         run: python scripts/capability_doctor.py --require python --require AGENTS.md
       - name: Validate completed Spec Kit fixture
@@ -30,7 +32,7 @@ jobs:
       - name: Reference harness tests
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Python syntax
-        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py scripts/capability_doctor.py scripts/evaluate_action.py scripts/spec_check.py scripts/unlazy_check.py scripts/compile_context.py scripts/audit_fingerprint.py
+        run: python -m py_compile scripts/validate_public_lab.py scripts/validate_agent_controls.py scripts/capability_doctor.py scripts/evaluate_action.py scripts/spec_check.py scripts/unlazy_check.py scripts/compile_context.py scripts/governance_recovery.py scripts/audit_fingerprint.py
       - name: JSON parse
         shell: bash
         run: |
