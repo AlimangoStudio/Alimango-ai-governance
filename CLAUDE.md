@@ -2,6 +2,6 @@
 
 @AGENTS.md
 
-Claude Code working in this public repository follows `AGENTS.md`, the public-lab Constitution, policies, workflows, and current Spec Kit artifacts. Claude-specific capabilities may improve execution but do not change authority, approval, evidence, or public/private boundaries.
+Claude Code working in this repository follows `AGENTS.md`, the repository Constitution, applicable policies/workflows, and current Spec Kit artifacts. Host-specific capabilities may improve execution but do not change authority, approval, evidence, public-scope, or least-capability rules.
 
-If a Claude-specific behavior conflicts with the repository control plane, the repository control plane wins.
+If a host-specific behavior conflicts with the repository control plane, the repository control plane wins.
