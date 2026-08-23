@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "AGP-001",
+  "title": "Capability-gated shell execution with deny-by-default scope",
+  "status": "experimental",
+  "failure_modes": ["AGF-002", "AGF-011"],
+  "control_classes": ["capability", "action", "evidence"],
+  "problem": "A general-purpose shell tool can let an agent perform actions that were never required by the task, including destructive repository or system mutations.",
+  "control": "Build the executable shell capability from an explicit per-turn scope and deny commands outside that scope before process creation.",
+  "enforcement_point": "The shell tool wrapper immediately before subprocess creation.",
+  "evidence": {
+    "type": "reproduction",
+    "description": "Synthetic examples should show an allowed read-only command succeeding and an out-of-scope destructive command being rejected before execution."
+  },
+  "security": {
+    "permission_change": true,
+    "side_effect_change": true,
+    "data_boundary_change": false,
+    "notes": "This proposal narrows permissions. A complete implementation would also test command aliases, shell chaining, and alternate side-effecting tools."
+  },
+  "limitations": [
+    "Command classification alone does not prove semantic safety.",
+    "Equivalent side effects through other tools require separate capability gates."
+  ],
+  "private_adoption": {
+    "authoritative": false,
+    "automatic_sync_allowed": false
+  }
+}
