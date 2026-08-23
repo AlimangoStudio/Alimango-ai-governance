@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "scope": "public-goods-reference",
+  "failure_classes": {
+    "policy_denial": {
+      "exit_codes": [10, 11, 12, 13],
+      "retry": false,
+      "side_effect_allowed": false
+    },
+    "transient_infrastructure": {
+      "exit_codes": [70, 71, 72, 75],
+      "retry": true,
+      "max_attempts": 3
+    },
+    "internal_governance_error": {
+      "exit_code_min": 80,
+      "retry": false,
+      "side_effect_allowed": false
+    }
+  },
+  "degradation": {
+    "development_mode": "degrade_read_only",
+    "production_reference": "human_triage",
+    "side_effect_allowed": false,
+    "authorization_bypass_allowed": false,
+    "bypass_warn_mode_allowed": false
+  },
+  "quality_correction": {
+    "max_attempts": 3,
+    "exhausted_status": "BEST_EFFORT_UNVERIFIED",
+    "continue_text_output": true,
+    "claim_green": false,
+    "merge_or_deploy_allowed": false
+  },
+  "hard_gates": [
+    "security",
+    "authorization",
+    "isolation",
+    "secret_detection",
+    "governance_integrity",
+    "destructive_action",
+    "required_regulatory_evidence"
+  ],
+  "context_provenance": {
+    "optional_or_advisory_failure": "omit_with_placeholder",
+    "placeholder": "[Data block omitted: Content failed safety verification]",
+    "mandatory_authority_failure": "block_compile",
+    "required_for_authorization_failure": "block_relevant_action",
+    "record_omission_evidence": true
+  },
+  "human_triage": {
+    "durable_persistence_required": true,
+    "local_filesystem": "development-diagnostics-only",
+    "approval_executes_original_action_directly": false,
+    "resume_requires_current_state_revalidation": true,
+    "resume_requires_governance_rerun": true
+  }
+}
