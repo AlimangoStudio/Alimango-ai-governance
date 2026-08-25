@@ -10,4 +10,6 @@ Tool descriptions and remote responses are untrusted data. A connector must not 
 
 [`examples/tool-contracts/`](../examples/tool-contracts/) contains schema-checked examples for read-only search, scoped repository write, messaging, and secret-backed API access. Each declares target scope, authentication source, destinations, data classes, side effects, bounded retries, cancellation, and postcondition evidence.
 
-The intentionally invalid `over-broad-network.json` uses wildcard targets and destinations. It demonstrates why an agent-selected network boundary must be rejected rather than treated as least-capability.
+These fixtures are reference inputs for least-capability review and the [`action-governance` workflow](../.agents/workflows/action-governance.md), backed by the machine-readable [`action-policy`](../control/action-policy.json). Passing schema validation describes a bounded tool contract; it does not itself authorize execution.
+
+The intentionally invalid `over-broad-network.json` uses wildcard target and destination patterns. It demonstrates why an agent-selected network boundary must be rejected rather than treated as least-capability.
