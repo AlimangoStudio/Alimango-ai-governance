@@ -8,8 +8,12 @@
   "outputs": {"commit": "string"},
   "preconditions": ["target repository is in task scope", "path is not secret-bearing", "write is permitted by current task"],
   "postconditions": ["commit exists", "changed path matches approved target"],
+  "target_scope": {"class": "repository", "identifiers": ["synthetic/example:approved-path/"]},
+  "auth_source": "provider-managed repository token",
   "network_destinations": ["github.com"],
   "data_classes": ["public"],
   "idempotent": false,
+  "retry": {"max_attempts": 1},
+  "cancellation": "stop before commit creation and report any staged file",
   "evidence": ["commit sha", "changed-file list"]
 }
